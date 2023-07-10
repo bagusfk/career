@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class MyRole
 {
@@ -13,11 +14,17 @@ class MyRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (! $request->user()->hasRole($role)) {
-            abort(404, 'Not Found');
+        // dd($roles);
+
+        foreach( $roles as $role){
+            if (! Auth::user()->hasRole($role)) {
+                abort(404, 'Not Found');
+            }
+
         }
+
 
         return $next($request);
     }

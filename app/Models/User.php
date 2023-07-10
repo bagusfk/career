@@ -16,10 +16,15 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function hasRole($role)
+    public function hasRole($roles)
     {
-        return $this->role->name === $role;
+        if ($this->role()->where('name', $roles)->first()) {
+            return true;
+          }
+          return false;
+        // return $this->role->name;
         // return $this->roles->pluck('name')->contains($role);
+
         // $roles = $this->role->pluck('name')->toArray();
         // return in_array($role, $roles);
     }

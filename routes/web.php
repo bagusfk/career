@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     });
 
-    Route::middleware(['myrole:interviewer'])->group(function () {
+    Route::middleware('myrole:interviewer,admin')->group(function () {
         Route::get('/interview', [InterviewerController::class, 'index'])->name('admin.interviewer.interview');
     });
 });
