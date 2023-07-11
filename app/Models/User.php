@@ -12,27 +12,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function role(){
-        return $this->belongsTo(Role::class);
-    }
-
-    public function hasRole($roles)
-    {
-        if ($this->role()->where('name', $roles)->first()) {
-            return true;
-          }
-          return false;
-        // return $this->role->name;
-        // return $this->roles->pluck('name')->contains($role);
-
-        // $roles = $this->role->pluck('name')->toArray();
-        // return in_array($role, $roles);
-    }
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -58,4 +37,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function hasRole(){
+        return $this->role->name;
+    }
 }

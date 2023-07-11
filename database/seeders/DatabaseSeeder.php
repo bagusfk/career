@@ -14,28 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        DB::table('roles')->insert([
-            [
-                'name' => 'admin',
-                'created_at' => carbon::now(),
-                'updated_at' => carbon::now(),
-            ],
-            [
-                'name' => 'interviewer',
-                'created_at' => carbon::now(),
-                'updated_at' => carbon::now(),
-            ],
-            [
-                'name' => 'user',
-                'created_at' => carbon::now(),
-                'updated_at' => carbon::now(),
-            ],
+        $this->call([
+            Roles::class,
+            User::class,
         ]);
     }
 }
