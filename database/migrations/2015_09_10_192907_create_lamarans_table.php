@@ -14,16 +14,15 @@ return new class extends Migration
         Schema::create('lamarans', function (Blueprint $table) {
             $table->id();
             $table->enum('status', [
-                'Pemberkasan',
-                'Test',
-                'Interview',
-                'Hired',
-                'Failed',
-                'Blacklist'
-                ])->default(['Pemberkasan']);
-            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
-            $table->foreign('lowongan_id')->references('id')->on('lowongans')->onDelete('cascade');
-            $table->foreign('interview_id')->references('id')->on('interviews')->onDelete('cascade');
+                'pemberkasan',
+                'test',
+                'interview',
+                'hired',
+                'failed',
+                'blacklist'
+                ])->default('pemberkasan');
+            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
+            $table->foreignId('lowongan_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

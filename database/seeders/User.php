@@ -16,9 +16,6 @@ class User extends Seeder
     public function run(): void
     {
         // Mengambil role dengan nama 'admin', 'user', dan 'interviewer'
-        $adminRole = DB::table('roles')->where('name', 'admin')->first();
-        $interviewerRole = DB::table('roles')->where('name', 'interviewer')->first();
-        $userRole = DB::table('roles')->where('name', 'user')->first();
 
         // Membuat data pengguna dengan masing-masing role
         DB::table('users')->insert([
@@ -27,7 +24,7 @@ class User extends Seeder
                 'name' => 'Admin',
                 'email' => 'admin@admin.com',
                 'password' => Hash::make('pwd123'),
-                'role_id' => $adminRole->id,
+                'role' => 'admin',
                 'created_at' => carbon::now(),
                 'updated_at' => carbon::now(),
             ],
@@ -35,7 +32,7 @@ class User extends Seeder
                 'name' => 'interviewer',
                 'email' => 'interviewer@interviewer.com',
                 'password' => Hash::make('pwd123'),
-                'role_id' => $interviewerRole->id,
+                'role' => 'interviewer',
                 'created_at' => carbon::now(),
                 'updated_at' => carbon::now(),
             ],
@@ -43,7 +40,7 @@ class User extends Seeder
                 'name' => 'User',
                 'email' => 'user@user.com',
                 'password' => Hash::make('pwd123'),
-                'role_id' => $userRole->id,
+                'role' => 'user',
                 'created_at' => carbon::now(),
                 'updated_at' => carbon::now(),
             ],

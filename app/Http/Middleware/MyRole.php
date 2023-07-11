@@ -17,7 +17,7 @@ class MyRole
     {
 
         if (!in_array(Auth::user()->hasRole(), $roles)) {
-            abort(403);
+            return redirect()->route(Auth::user()->hasRole().'.index');
         }
 
         return $next($request);

@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('answers', function (Blueprint $table) {
+        Schema::create('lowongans', function (Blueprint $table) {
             $table->id();
-            $table->string('file_url');
-            $table->foreign('lamaran_id')->references('id')->on('lamarans')->onDelete('cascade');
+            $table->string('name');
+            $table->string('deskripsi');
+            $table->string('file_test');
+            $table->date('tgl_open')->nullable();
+            $table->date('tgl_closed')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('answers');
+        Schema::dropIfExists('lowongans');
     }
 };

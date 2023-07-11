@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('berkas', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('cv')->nullable();
+            $table->string('transkip')->nullable();
+            $table->string('ijazah')->nullable();
+            $table->string('profiling')->nullable();
+            $table->foreignId('profile_id')->unique()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('berkas');
     }
 };

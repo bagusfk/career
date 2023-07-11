@@ -20,9 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {return view('dashboard');})->name('user.index');
 
 Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,11 +31,11 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['myrole:admin'])->group(function () {
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
     });
 
     Route::middleware('myrole:interviewer,admin')->group(function () {
-        Route::get('/interview', [InterviewerController::class, 'index'])->name('admin.interviewer.interview');
+        Route::get('/interview', [InterviewerController::class, 'index'])->name('interviewer.index');
     });
 });
 

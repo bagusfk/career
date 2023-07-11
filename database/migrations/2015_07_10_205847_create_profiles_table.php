@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->char('no_hp')->nullable()->default('');
-            $table->text('alamat')->nullable()->default('');
-            $table->date('tgl_lahir')->nullable()->default(new DateTime());
-            $table->enum('jenis_kelamin', ['laki-laki','perempuan'])->nullable()->default(['']);
-            $table->string('image')->nullable()->default('');
-            $table->string('sekolah')->nullable()->default('');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('no_hp')->nullable();
+            $table->string('alamat')->nullable();
+            $table->date('tgl_lahir')->nullable();
+            $table->enum('jenis_kelamin', ['laki-laki','perempuan'])->nullable();
+            $table->string('image')->nullable();
+            $table->string('sekolah')->nullable();
+            $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
