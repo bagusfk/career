@@ -36,9 +36,13 @@
                         <td x-text="lowongan.tgl_open"class="px-6 py-4"></td>
                         <td x-text="lowongan.tgl_closed"class="px-6 py-4"></td>
                         <td class="px-6 py-4">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <a :href="`lowongan/${lowongan.id}/edit`" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                             |
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">hapus</a>
+                            <form :action="`lowongan/${lowongan.id}`" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus lowongan ini?')">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 </template>

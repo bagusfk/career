@@ -58,15 +58,18 @@ class LowonganController extends Controller
      */
     public function show(Lowongan $lowongan)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Lowongan $lowongan)
+    public function edit(Lowongan $id)
     {
-        //
+        // dd($id);
+        $lowongan = Lowongan::findOrFail($id);
+
+        return view('admin.lowongan.edit', compact('lowongan'));
     }
 
     /**
@@ -74,14 +77,24 @@ class LowonganController extends Controller
      */
     public function update(Request $request, Lowongan $lowongan)
     {
-        //
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Lowongan $lowongan)
+    public function destroy(Lowongan $id)
     {
-        //
+        $lowongan = Lowongan::findOrFail($id);
+
+    // Hapus file terkait jika ada
+    // if ($lowongan->file && file_exists(public_path('files/' . $lowongan->file))) {
+    //     unlink(public_path('files/' . $lowongan->file));
+    // }
+
+    $lowongan->delete();
+
+    return redirect()->route('admin.lowongan.index')
+        ->with('success', 'Lowongan berhasil dihapus.');
     }
 }
