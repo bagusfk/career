@@ -47,12 +47,7 @@ class LowonganController extends Controller
             $filepath=Storage::disk('public')->put('file_test', request()->file('file_test'));
             $validated['file_test'] = $filepath;
         }
-        if ($request->hasFile('file_test')) {
-            $file = $request->file('file_test');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('file_test'), $fileName);
-            $validated['file_test'] = $fileName;
-        }
+
         Lowongan::create($validated);
 
         return redirect()->route('admin.lowongan.index')
@@ -85,6 +80,7 @@ class LowonganController extends Controller
      */
     public function update(Request $request, Lowongan $id)
     {
+        $lowongan = Post::findOrFail($id);
         $validated = $request->validate([
             'judul' => 'required',
             'deskripsi' => 'required',
@@ -94,25 +90,21 @@ class LowonganController extends Controller
             'tgl_closed' => 'required|date',
         ]);
 
-        $lowongan = Lowongan::findOrFail($id);
-
         if ($request->hasFile('file_test')) {
-            $file = $request->file('file_test');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('file_test'), $fileName);
-            $validated['file_test'] = $fileName;
+            // delete image
+            Storage::disk('public')->delete($lowongan->file_test);
 
-            // Hapus file lama jika ada
-            if ($lowongan->file_test && file_exists(public_path('file_test/' . $lowongan->file_test))) {
-                unlink(public_path('file_test/' . $lowongan->file_test));
-            }
+            $filePath = Storage::disk('public')->put('file_test', request()->file('file_test'), 'public');
+            $validated['file_test'] = $filePath;
         }
 
-        $lowongan->update($validated);
+        $update = $lowongan->update($validated);
 
-        return redirect()->route('admin.lowongan.index')
-            ->with('success', 'Lowongan berhasil diperbarui.');
-
+        if($update) {
+            session()->flash('notif.success', 'lowongan updated successfully!');
+            return redirect()->route('admin.lowongan.index');
+        }
+        return abort(500);
     }
 
     /**

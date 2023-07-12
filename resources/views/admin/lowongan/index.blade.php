@@ -39,7 +39,7 @@
                         <td class="px-6 py-4">{{ $lowongan->tgl_open }}</td>
                         <td class="px-6 py-4">{{ $lowongan->tgl_closed }}</td>
                         <td class="px-6 py-4">
-                            <a href="file_test/{{ $lowongan->file_test }}">
+                            <a href="{{ $lowongan->file_test }}">
                                 <button type="button">Download</button>
                             </a>
                         </td>
