@@ -59,7 +59,7 @@ class LowonganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lowongan $id)
+    public function show(Lowongan $lowongan)
     {
         // return response()->view('admin.lowongan.show',[
         //     'lowongans'=>Lowongan::findOrFail($id),
@@ -69,13 +69,11 @@ class LowonganController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Lowongan $id)
+    public function edit(Lowongan $lowongan)
     {
-
-        return response()->view('admin.lowongan.edit',[
-            'lowongans'=>Lowongan::findOrFail($id),
-            dd($id),
-        ]);
+        // dd($lowongan);
+        $lowo = Lowongan::findOrFail($lowongan);
+        return view('admin.lowongan.edit', compact('lowo'));
     }
 
     /**
@@ -84,6 +82,7 @@ class LowonganController extends Controller
     public function update(Request $request, Lowongan $id)
     {
         $lowongan = Lowongan::findOrFail($id);
+
         $validated = $request->validate([
             'judul' => 'required',
             'deskripsi' => 'required',
@@ -105,7 +104,7 @@ class LowonganController extends Controller
 
         if($update) {
             session()->flash('notif.success', 'lowongan updated successfully!');
-            return redirect()->route('admin.lowongan.index');
+            return redirect()->route('lowongan.index');
         }
         return abort(500);
     }

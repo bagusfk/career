@@ -45,8 +45,8 @@
                         </td>
                         <td class="px-6 py-4">
                             {{-- <a href="{{ route('lowongan.show', $lowongan->id) }}">show</a>| --}}
-                            <a href="{{ route('lowongan.edit', $lowongan->id) }}">edit</a>|
                             <form method="post" action="{{ route('lowongan.destroy', $lowongan->id) }}" class="inline">
+                                <a href="{{ route('lowongan.edit', $lowongan->id) }}">edit</a>|
                                 @csrf
                                 @method('delete')
                                 <button class="border border-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-md">DELETE</button>
