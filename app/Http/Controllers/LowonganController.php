@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lowongan;
 use Illuminate\Http\Request;
+use Storage;
 
 class LowonganController extends Controller
 {
@@ -12,9 +13,11 @@ class LowonganController extends Controller
      */
     public function index()
     {
-        $lowongans = Lowongan::all();
-
-        return view('admin.lowongan.index', compact('lowongans'));
+        // $lowongans = Lowongan::orderBy('updated_at', 'desc')->get();
+        // return view('admin.lowongan.index', compact('lowongans'));
+        return response()->view('admin.lowongan.index',[
+            'lowongans'=>Lowongan::orderBy('updated_at', 'desc')->get(),
+        ]);
     }
 
     /**
@@ -31,23 +34,26 @@ class LowonganController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        $validatedData = $request->validate([
+        $validated = $request->validate([
             'judul' => 'required',
             'deskripsi' => 'required',
             'posisi' => 'required',
-            'file_test' => 'required',
+            'file_test' => 'mimes:pdf',
             'tgl_open' => 'required|date',
             'tgl_closed' => 'required|date',
         ]);
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
+        // dd($request);
+        if ($request->hasFile('file_test')) {
+            $filepath=Storage::disk('public')->put('file_test', request()->file('file_test'));
+            $validated['file_test'] = $filepath;
+        }
+        if ($request->hasFile('file_test')) {
+            $file = $request->file('file_test');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('file_test'), $fileName);
-            $validatedData['file'] = $fileName;
+            $validated['file_test'] = $fileName;
         }
-
-        Lowongan::create($validatedData);
+        Lowongan::create($validated);
 
         return redirect()->route('admin.lowongan.index')
             ->with('success', 'Lowongan berhasil ditambahkan.');
@@ -56,9 +62,11 @@ class LowonganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lowongan $lowongan)
+    public function show(Lowongan $id)
     {
-
+        return response()->view('admin.lowongan.show',[
+            'lowongans'=>Lowongan::findOrFail($id),
+        ]);
     }
 
     /**
@@ -67,16 +75,43 @@ class LowonganController extends Controller
     public function edit(Lowongan $id)
     {
         // dd($id);
-        $lowongan = Lowongan::findOrFail($id);
-
-        return view('admin.lowongan.edit', compact('lowongan'));
+        return response()->view('admin.lowongan.edit',[
+            'lowongans'=>Lowongan::findOrFail($id),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Lowongan $lowongan)
+    public function update(Request $request, Lowongan $id)
     {
+        $validated = $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'posisi' => 'required',
+            'file_test' => 'nullable|mimes:pdf',
+            'tgl_open' => 'required|date',
+            'tgl_closed' => 'required|date',
+        ]);
+
+        $lowongan = Lowongan::findOrFail($id);
+
+        if ($request->hasFile('file_test')) {
+            $file = $request->file('file_test');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('file_test'), $fileName);
+            $validated['file_test'] = $fileName;
+
+            // Hapus file lama jika ada
+            if ($lowongan->file_test && file_exists(public_path('file_test/' . $lowongan->file_test))) {
+                unlink(public_path('file_test/' . $lowongan->file_test));
+            }
+        }
+
+        $lowongan->update($validated);
+
+        return redirect()->route('admin.lowongan.index')
+            ->with('success', 'Lowongan berhasil diperbarui.');
 
     }
 
@@ -87,14 +122,14 @@ class LowonganController extends Controller
     {
         $lowongan = Lowongan::findOrFail($id);
 
-    // Hapus file terkait jika ada
-    // if ($lowongan->file && file_exists(public_path('files/' . $lowongan->file))) {
-    //     unlink(public_path('files/' . $lowongan->file));
-    // }
+        // Hapus file terkait jika ada
+        if ($lowongan->file_test && file_exists(public_path('file_test/' . $lowongan->file_test))) {
+            unlink(public_path('file_test/' . $lowongan->file_test));
+        }
 
-    $lowongan->delete();
+        $lowongan->delete();
 
-    return redirect()->route('admin.lowongan.index')
-        ->with('success', 'Lowongan berhasil dihapus.');
+        return redirect()->route('admin.lowongan.index')
+            ->with('success', 'Lowongan berhasil dihapus.');
     }
 }

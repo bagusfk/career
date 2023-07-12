@@ -1,9 +1,9 @@
-<x-app-layout x-data="{ tgl_open: '', tgl_closed: '' }">
+<x-app-layout>
     <h1 class="py-12 text-3xl dark:text-white text-center">Halo <span>{{ Auth::user()->name }}</span> Di Create lowongan</h1>
 
     <div class="py-12 px-4 mx-auto max-w-screen-xl">
         <div class="p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <form class="space-y-6" action="{{ route('admin.lowongan.store') }}" method="POST">
+            <form class="space-y-6" action="{{ route('admin.lowongan.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="mb-3">
@@ -22,8 +22,8 @@
                     </div>
                     <div class="mb-3">
                         <div class="mb-3">
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload test file</label>
-                            <input name="file_test"class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_test">Upload test file</label>
+                            <input type="file" name="file_test" id="file_test" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
                         </div>
                         <div class="grid md:grid-cols-2 gap-8">
                             <div class="mb-6">
@@ -40,7 +40,7 @@
 
                 <div class="flex items-start">
                     <div class="flex items-start">
-                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" x-bind:disabled="tgl_open === '' || tgl_closed === ''">Submit</button>
+                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                     </div>
                 </div>
             </form>

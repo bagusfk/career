@@ -33,7 +33,7 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('admin')->name('admin.')->middleware(['myrole:admin'])->group(function () {
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+        Route::get('', [AdminController::class, 'index'])->name('admin.index');
         // Route::get('/admin/lowongan', [LowonganController::class, 'index'])->name('lowongan.index');
         // Route::get('/admin/lowongan/create', [LowonganController::class, 'create'])->name('lowongan.create');
         // Route::post('/admin/lowongan', [LowonganController::class, 'store'])->name('lowongan.store');

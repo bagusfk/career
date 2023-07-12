@@ -17,36 +17,46 @@
                         posisi
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Available
+                        Buka
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Closed
+                        Tutup
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        file
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
             </thead>
-            <tbody x-data="{ lowongans: {{ $lowongans->toJson() }} }">
-                <template x-for="lowongan in lowongans" :key="lowongan.id">
+            <tbody>
+                @foreach ($lowongans as $lowongan)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th x-text="lowongan.judul" scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"></th>
-                        <td x-text="lowongan.deskripsi" class="px-6 py-4"></td>
-                        <td x-text="lowongan.posisi" class="px-6 py-4"></td>
-                        <td x-text="lowongan.tgl_open"class="px-6 py-4"></td>
-                        <td x-text="lowongan.tgl_closed"class="px-6 py-4"></td>
+                        <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $lowongan->judul }}</th>
+                        <td class="px-6 py-4">{{ $lowongan->deskripsi }}</td>
+                        <td class="px-6 py-4">{{ $lowongan->posisi }}</td>
+                        <td class="px-6 py-4">{{ $lowongan->tgl_open }}</td>
+                        <td class="px-6 py-4">{{ $lowongan->tgl_closed }}</td>
                         <td class="px-6 py-4">
-                            <a :href="`lowongan/${lowongan.id}/edit`" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            |
-                            <form :action="`lowongan/${lowongan.id}`" method="POST" class="d-inline">
+                            <a href="file_test/{{ $lowongan->file_test }}">
+                                <button type="button">Download</button>
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            {{-- <a href="{{ route('admin.lowongan.show', $lowongan->id) }}">show</a>| --}}
+                            <a href="{{ route('admin.lowongan.edit', $lowongan->id) }}">edit</a>|
+                            <form method="post" action="{{ route('admin.lowongan.destroy', $lowongan->id) }}" class="inline">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus lowongan ini?')">Delete</button>
+                                @method('delete')
+                                <button class="border border-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-md">DELETE</button>
                             </form>
                         </td>
                     </tr>
-                </template>
+                @endforeach
+
             </tbody>
+
         </table>
     </div>
 
