@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InterviewerController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LowonganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('admin')->name('admin.')->middleware(['myrole:admin'])->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan.index');
+        Route::get('/lowongan/create', [LowonganController::class, 'create'])->name('lowongan.create');
     });
 
     Route::prefix('interview')->name('interviewer.')->middleware('myrole:interviewer,admin')->group(function () {

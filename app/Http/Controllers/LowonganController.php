@@ -12,7 +12,9 @@ class LowonganController extends Controller
      */
     public function index()
     {
-        //
+        $lowongans = Lowongan::all();
+
+        return view('admin.lowongan.index', compact('lowongans'));
     }
 
     /**
@@ -20,7 +22,7 @@ class LowonganController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.lowongan.create ');
     }
 
     /**

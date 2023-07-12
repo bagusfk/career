@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('lowongans', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('deskripsi');
-            $table->string('file_test');
-            $table->date('tgl_open')->nullable();
-            $table->date('tgl_closed')->nullable();
+            $table->string('judul');
+            $table->text('deskripsi');
+            $table->string('posisi');
+            $table->string('file_test')->nullable();
+            $table->date('tgl_open');
+            $table->date('tgl_closed');
             $table->timestamps();
         });
     }

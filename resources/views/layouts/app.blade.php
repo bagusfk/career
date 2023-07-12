@@ -19,6 +19,8 @@
                 document.documentElement.classList.remove('dark')
             }
         </script>
+        <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+        <script src="../path/to/flowbite/dist/datepicker.js"></script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
