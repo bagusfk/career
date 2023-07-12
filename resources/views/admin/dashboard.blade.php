@@ -1,4 +1,3 @@
 <x-app-layout>
-    <h1 class="text-3xl">Halo <span>{{ Auth::user()->name }}</span></h1>
-
+    <h1 class="py-12 text-3xl dark:text-white text-center">Halo <span>{{ Auth::user()->name }}</span> Di Dashboard Admin</h1>
 </x-app-layout>
