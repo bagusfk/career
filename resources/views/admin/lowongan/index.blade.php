@@ -2,7 +2,7 @@
     <h1 class="py-12 text-3xl dark:text-white text-center">Halo <span>{{ Auth::user()->name }}</span> Di Kelola lowongan</h1>
     <div class="relative max-w-6xl mx-auto overflow-x-auto shadow-md sm:rounded-lg">
         <div class="mb-3">
-            <a href="{{ route('admin.lowongan.create') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Tambah Lowongan</a>
+            <a href="{{ route('lowongan.create') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Tambah Lowongan</a>
         </div>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -44,9 +44,9 @@
                             </a>
                         </td>
                         <td class="px-6 py-4">
-                            {{-- <a href="{{ route('admin.lowongan.show', $lowongan->id) }}">show</a>| --}}
-                            <a href="{{ route('admin.lowongan.edit', $lowongan->id) }}">edit</a>|
-                            <form method="post" action="{{ route('admin.lowongan.destroy', $lowongan->id) }}" class="inline">
+                            {{-- <a href="{{ route('lowongan.show', $lowongan->id) }}">show</a>| --}}
+                            <a href="{{ route('lowongan.edit', $lowongan->id) }}">edit</a>|
+                            <form method="post" action="{{ route('lowongan.destroy', $lowongan->id) }}" class="inline">
                                 @csrf
                                 @method('delete')
                                 <button class="border border-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-md">DELETE</button>

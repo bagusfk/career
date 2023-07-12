@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lowongan extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'judul',
         'deskripsi',
@@ -16,4 +17,6 @@ class Lowongan extends Model
         'tgl_open',
         'tgl_closed',
     ];
+
+
 }

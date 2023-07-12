@@ -3,7 +3,7 @@
 
     <div class="py-12 px-4 mx-auto max-w-screen-xl">
         <div class="p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <form class="space-y-6" action="{{ route('admin.lowongan.store') }}" method="POST">
+            <form class="space-y-6" action="{{ route('lowongan.store') }}" method="POST">
                 @csrf
                 <div class="grid md:grid-cols-2 gap-8">
                     <div class="mb-3">

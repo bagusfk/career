@@ -27,7 +27,7 @@
                     @endif
                     @if (Auth::user()->role === 'admin')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link :href="route('admin.lowongan.index')" :active="request()->routeIs('admin.lowongan.index')">
+                            <x-nav-link :href="route('lowongan.index')" :active="request()->routeIs('lowongan.index')">
                                 {{ __('Kelola Lowongan') }}
                             </x-nav-link>
                         </div>

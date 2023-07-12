@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lowongan;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Storage;
+use Illuminate\Http\Response;
+use App\Models\Lowongan;
+use Illuminate\Support\Facades\Storage;
 
 class LowonganController extends Controller
 {
@@ -50,7 +52,7 @@ class LowonganController extends Controller
 
         Lowongan::create($validated);
 
-        return redirect()->route('admin.lowongan.index')
+        return redirect()->route('lowongan.index')
             ->with('success', 'Lowongan berhasil ditambahkan.');
     }
 
@@ -59,9 +61,9 @@ class LowonganController extends Controller
      */
     public function show(Lowongan $id)
     {
-        return response()->view('admin.lowongan.show',[
-            'lowongans'=>Lowongan::findOrFail($id),
-        ]);
+        // return response()->view('admin.lowongan.show',[
+        //     'lowongans'=>Lowongan::findOrFail($id),
+        // ]);
     }
 
     /**
@@ -69,9 +71,10 @@ class LowonganController extends Controller
      */
     public function edit(Lowongan $id)
     {
-        // dd($id);
+
         return response()->view('admin.lowongan.edit',[
             'lowongans'=>Lowongan::findOrFail($id),
+            dd($id),
         ]);
     }
 
@@ -80,7 +83,7 @@ class LowonganController extends Controller
      */
     public function update(Request $request, Lowongan $id)
     {
-        $lowongan = Post::findOrFail($id);
+        $lowongan = Lowongan::findOrFail($id);
         $validated = $request->validate([
             'judul' => 'required',
             'deskripsi' => 'required',
@@ -112,16 +115,14 @@ class LowonganController extends Controller
      */
     public function destroy(Lowongan $id)
     {
+        dd($id);
         $lowongan = Lowongan::findOrFail($id);
-
-        // Hapus file terkait jika ada
-        if ($lowongan->file_test && file_exists(public_path('file_test/' . $lowongan->file_test))) {
-            unlink(public_path('file_test/' . $lowongan->file_test));
+        Storage::disk('public')->delete($lowongan->file_test);
+        $delete = $lowongan->delete($id);
+        if($delete) {
+            session()->flash('notif.success', 'lowongan deleted successfully!');
+            return redirect()->route('lowongan.index');
         }
-
-        $lowongan->delete();
-
-        return redirect()->route('admin.lowongan.index')
-            ->with('success', 'Lowongan berhasil dihapus.');
+        return abort(500);
     }
 }
