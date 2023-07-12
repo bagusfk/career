@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('index');
         Route::get('/lowongan', [LowonganController::class, 'index'])->name('lowongan.index');
         Route::get('/lowongan/create', [LowonganController::class, 'create'])->name('lowongan.create');
+        Route::post('/lowongan', [LowonganController::class, 'store'])->name('lowongan.store');
     });
 
     Route::prefix('interview')->name('interviewer.')->middleware('myrole:interviewer,admin')->group(function () {

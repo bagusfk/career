@@ -30,7 +30,27 @@ class LowonganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $validatedData = $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'posisi' => 'required',
+            'file_test' => 'required',
+            'tgl_open' => 'required|date',
+            'tgl_closed' => 'required|date',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('file_test'), $fileName);
+            $validatedData['file'] = $fileName;
+        }
+
+        Lowongan::create($validatedData);
+
+        return redirect()->route('admin.lowongan.index')
+            ->with('success', 'Lowongan berhasil ditambahkan.');
     }
 
     /**
