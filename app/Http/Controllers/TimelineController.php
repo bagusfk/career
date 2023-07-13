@@ -14,9 +14,14 @@ class TimelineController extends Controller
      */
     public function index()
     {
-        return response()->view('user.timeline.index',[
-            'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),
-        ]);
+        $user =auth()->user();
+        $lamarans = $user->profile->lamaran;
+
+        return view('user.timeline.index', compact('lamarans'));
+
+        // return response()->view('user.timeline.index',[
+        //     'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),
+        // ]);
     }
 
     /**
