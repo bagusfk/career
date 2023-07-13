@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\PenerimaanController;
+use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::get('/lamaran', [LamaranController::class,'index'])->name('lamaran.index');
     Route::get('/lamaran/{lowongan}', [LamaranController::class,'create'])->name('lamaran.create');
     Route::Post('/lamaran/create', [LamaranController::class,'store'])->name('lamaran.store');
+
+    Route::resource('/timeline', TimelineController::class);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

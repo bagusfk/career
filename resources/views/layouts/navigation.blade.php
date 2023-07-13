@@ -24,6 +24,11 @@
                                 {{ __('Vacancy') }}
                             </x-nav-link>
                         </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('timeline.index')" :active="request()->routeIs('timeline.index')">
+                                {{ __('Lamaran Saya') }}
+                            </x-nav-link>
+                        </div>
                     @endif
                     @if (Auth::user()->role === 'admin')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">

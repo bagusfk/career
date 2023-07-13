@@ -24,14 +24,27 @@
                         <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $row->profile->user->name }}</th>
                         <td class="px-6 py-4">{{ $row->lowongan->posisi }}</td>
                         <td class="px-6 py-4">
-                            <span id="status_{ $row->id }}">
+                            {{-- <span id="status_{ $row->id }}">
                                 {{ $row->status }}
-                            </span>
+                            </span> --}}
+                            <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row">
+                                @csrf
+                                @method('PUT')
+                                <select  name="status" id="underline_select" class="block py-2.5 px-0 w-sm text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                    <option value="pemberkasan" {{ $row->status === 'pemberkasan' ? 'selected' : '' }}>pemberkasan</option>
+                                    <option value="test" {{ $row->status === 'test' ? 'selected' : '' }}>test</option>
+                                    <option value="interview" {{ $row->status === 'interview' ? 'selected' : '' }}>interview</option>
+                                    <option value="hired" {{ $row->status === 'hired' ? 'selected' : '' }}>hired</option>
+                                    <option value="failed" {{ $row->status === 'failed' ? 'selected' : '' }}>filed</option>
+                                    <option value="blacklist" {{ $row->status === 'blacklist' ? 'selected' : '' }}>blacklist</option>
+                                </select>
+                                <div class="">
+                                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save</button>
+                                </div>
+                            </form>
                         </td>
                         <td class="flex px-6 py-4 mx-auto">
                             <a href="{{ route('penerimaan.show', $row->id) }}" class="border border-primary px-4 py-2 rounded-md mr-2 hover:bg-primary-500 hover:text-white">Detail</a>
-                            <a href="#" class="border border-primary px-4 py-2 rounded-md hover:bg-green-500 hover:text-white " data-toggle="modal" data-target="#editModal_{{ $row->id }}">Edit Status</a>
-
                         </td>
                     </tr>
                 @endforeach
@@ -39,38 +52,6 @@
         </table>
     </div>
 
-    <div class="modal fade" id="editModal_{{ $row->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel_{{ $row->id }}" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel_{{ $row->id }}">Edit Status Lamaran</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('penerimaan.update', $row->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="form-group">
-                            <label for="status">Status</label>
-                            <select class="form-control" id="status" name="status">
-                                <option value="pemberkasan" {{ $row->status === 'pemberkasan' ? 'selected' : '' }}>pemberkasan</option>
-                                <option value="test" {{ $row->status === 'test' ? 'selected' : '' }}>test</option>
-                                <option value="interview" {{ $row->status === 'interview' ? 'selected' : '' }}>interview</option>
-                                <option value="hired" {{ $row->status === 'hired' ? 'selected' : '' }}>hired</option>
-                                <option value="failed" {{ $row->status === 'failed' ? 'selected' : '' }}>filed</option>
-                                <option value="blacklist" {{ $row->status === 'blacklist' ? 'selected' : '' }}>blacklist</option>
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 </x-app-layout>
