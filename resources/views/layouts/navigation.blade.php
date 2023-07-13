@@ -20,8 +20,8 @@
                 @auth
                     @if (Auth::user()->role === 'user')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link :href="route('lowongan.index')" :active="request()->routeIs('lowongan.index')">
-                                {{ __('Lowongan') }}
+                            <x-nav-link :href="route('lamaran.index')" :active="request()->routeIs('lamaran.index')">
+                                {{ __('Vacancy') }}
                             </x-nav-link>
                         </div>
                     @endif
@@ -29,6 +29,11 @@
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-nav-link :href="route('lowongan.index')" :active="request()->routeIs('lowongan.index')">
                                 {{ __('Kelola Lowongan') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('penerimaan.index')" :active="request()->routeIs('penerimaan.index')">
+                                {{ __('Penerimaan') }}
                             </x-nav-link>
                         </div>
                     @endif

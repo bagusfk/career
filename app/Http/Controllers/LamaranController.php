@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lamaran;
+use App\Models\Lowongan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class LamaranController extends Controller
 {
@@ -12,15 +15,17 @@ class LamaranController extends Controller
      */
     public function index()
     {
-        //
+        return response()->view('user.lamaran.index',[
+            'lowongans'=>Lowongan::orderBy('updated_at', 'desc')->get(),
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Lowongan $lowongan)
     {
-        //
+        return view('user.lamaran.create', compact('lowongan'));
     }
 
     /**
@@ -28,16 +33,23 @@ class LamaranController extends Controller
      */
     public function store(Request $request)
     {
-        $lamaran = Application::create([
-            'profile_id' => $request->input('profile_id'),
-            'vacancy_id' => $request->input('vacancy_id'),
-            'status' => $request->input('status'),
+        $validated = Validator::make($request->all(), [
+            'profile_id' => 'required',
+            'lowongan_id' => 'required',
+            'status' => 'nullable|required',
+        ]);
+        $lamaran=Lamaran::create([
+            'profile_id' => $request->profile_id,
+            'lowongan_id' => $request->lowongan_id,
+            'status' => $request->status
         ]);
 
         $answer = new \App\Models\Answer();
         $answer->lamaran_id = $lamaran->id;
         $answer->save();
 
+        return redirect()->route('lamaran.index')
+            ->with('success', 'Lamaran berhasil dikirim.');
     }
 
     /**
@@ -45,7 +57,7 @@ class LamaranController extends Controller
      */
     public function show(Lamaran $lamaran)
     {
-        //
+
     }
 
     /**
