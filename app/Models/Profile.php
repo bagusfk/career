@@ -10,6 +10,7 @@ class Profile extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'no_hp',
         'alamat',
         'tgl_lahir',
@@ -17,5 +18,20 @@ class Profile extends Model
         'image',
         'sekolah',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function berkas()
+    {
+        return $this->hasOne(Berkas::class);
+    }
+
+    public function lamaran()
+    {
+        return $this->hasMany(Lamaran::class);
+    }
 
 }

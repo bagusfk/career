@@ -44,7 +44,16 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        $profile = new \App\Models\Profile();
+        $profile->user_id = $user->id;
+        $profile->save();
+
+        $berkas = new \App\Models\Berkas();
+        $berkas->profile_id = $profile->id;
+        $berkas->save();
+
         Auth::login($user);
+
 
         return redirect(RouteServiceProvider::HOME);
     }

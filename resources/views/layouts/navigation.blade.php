@@ -20,7 +20,7 @@
                 @auth
                     @if (Auth::user()->role === 'user')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link :href="route('lowongan')" :active="request()->routeIs('')">
+                            <x-nav-link :href="route('lowongan.index')" :active="request()->routeIs('lowongan.index')">
                                 {{ __('Lowongan') }}
                             </x-nav-link>
                         </div>

@@ -42,4 +42,14 @@ class User extends Authenticatable
     public function hasRole(){
         return $this->role;
     }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class);
+    }
 }
