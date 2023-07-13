@@ -28,7 +28,16 @@ class LamaranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lamaran = Application::create([
+            'profile_id' => $request->input('profile_id'),
+            'vacancy_id' => $request->input('vacancy_id'),
+            'status' => $request->input('status'),
+        ]);
+
+        $answer = new \App\Models\Answer();
+        $answer->lamaran_id = $lamaran->id;
+        $answer->save();
+
     }
 
     /**

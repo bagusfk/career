@@ -21,5 +21,9 @@ class Lowongan extends Model
         'tgl_closed',
     ];
 
+    public function lamaran()
+    {
+        return $this->hasMany(Lamaran::class);
+    }
 
 }

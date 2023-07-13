@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Berkas extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'profile_id',
+        'cv',
+        'transkip',
+        'ijazah',
+        'profiling_file',
+    ];
+
+    public function profile()
+    {
+        return $this->belongsTo(Profile::class);
+    }
+
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->string('file_url');
+            $table->string('file_url')->nullabel();
             $table->foreignId('lamaran_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
