@@ -29,4 +29,9 @@ class Lamaran extends Model
     {
         return $this->hasOne(Answer::class);
     }
+
+    public function interview()
+    {
+        return $this->hasMany(Interview::class);
+    }
 }
