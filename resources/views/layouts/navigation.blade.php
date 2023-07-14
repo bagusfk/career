@@ -42,7 +42,7 @@
                             </x-nav-link>
                         </div>
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link :href="route('interviewers.index')" :active="request()->routeIs('interviewer.index')">
+                            <x-nav-link :href="route('interviewers.index')" :active="request()->routeIs('interviewers.index')">
                                 {{ __('Interviewer') }}
                             </x-nav-link>
                         </div>

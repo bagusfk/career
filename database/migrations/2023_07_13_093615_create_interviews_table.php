@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('interviews', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->text('deskripsi')->nullable();
+            $table->text('link');
+            $table->date('tgl_interview');
+            $table->text('feedback')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('lamaran_id')->constrained()->onDelete('cascade');
             $table->timestamps();

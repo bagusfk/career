@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Interview;
+use App\Models\Lamaran;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class InterviewController extends Controller
 {
@@ -12,15 +16,18 @@ class InterviewController extends Controller
      */
     public function index()
     {
-        return view('interviewer.interview');
+        return view('interviewer.index');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Lamaran $interview)
     {
-        //
+        $interviewers = User::where('role', 'interviewer')->get();
+        // dd($interviewers);
+
+        return view('admin.interview.create', compact('interview','interviewers'));
     }
 
     /**
@@ -28,12 +35,34 @@ class InterviewController extends Controller
      */
     public function store(Request $request)
     {
-        $interview = Interview::create([
-            'application_id' => $request->input('application_id'),
-            'user_id' => $request->input('user_id'),
-            'type' => $request->input('type'),
-            'deskripsi' => $request->input('deskripsi'),
+        // dd($request);
+        $validated = Validator::make($request->all(), [
+            'type' => 'required',
+            'tgl_interview' => 'required',
+            'user_id' => 'required',
+            'link' => 'required',
+            'lamaran_id' => 'required',
         ]);
+
+        if($validated->fails()){
+            return redirect()->back()->withInput();
+        }
+        // $interview = Interview::create([
+        //     'deskripsi' => $request->input('deskripsi'),
+        //     'application_id' => $request->input('application_id'),
+        //     'user_id' => $request->input('user_id'),
+        //     'type' => $request->input('type'),
+        // ]);
+        Interview::create([
+            'type' => $request->type,
+            'tgl_interview' => $request->tgl_interview,
+            'user_id' => $request->user_id,
+            'link' => $request->link,
+            'lamaran_id' => $request->lamaran_id
+        ]);
+
+        return redirect()->route('penerimaan.index')
+            ->with('success', 'Jadwal Interview berhasil ditambahkan.');
     }
 
     /**

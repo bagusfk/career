@@ -13,7 +13,9 @@ class Interview extends Model
         'lamaran_id',
         'user_id',
         'type',
-        'deskripsi',
+        'link',
+        'tgl_interview',
+        'feedback'
     ];
 
     public function lamaran()
