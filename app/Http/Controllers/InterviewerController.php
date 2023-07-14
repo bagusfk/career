@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class InterviewerController extends Controller
 {
@@ -11,7 +14,10 @@ class InterviewerController extends Controller
      */
     public function index()
     {
-        return view('interviewer.interview');
+        return response()->view('admin.interviewer.index',[
+            'interviewers' => User::where('role', 'interviewer')->get(),
+            // 'user'=>User::orderBy('updated_at', 'desc')->get(),
+        ]);
     }
 
     /**
@@ -19,7 +25,7 @@ class InterviewerController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.interviewer.create');
     }
 
     /**
@@ -27,7 +33,25 @@ class InterviewerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'role' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+
+        $user = User::create([
+            'name' => $request->name,
+            'role' => $request->role,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        // dd($user);
+        event(new Registered($user));
+
+        return redirect()->route('interviewers.index')
+        ->with('success', 'Akun interviewer berhasil dibuat.');
     }
 
     /**

@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InterviewerController;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,10 +46,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
         Route::resource('/admin/lowongan', LowonganController::class);
         Route::resource('/admin/penerimaan', PenerimaanController::class);
+        Route::resource('/admin/interviewers', InterviewerController::class);
     });
 
     Route::prefix('interview')->name('interviewer.')->middleware('myrole:interviewer,admin')->group(function () {
-        Route::get('/', [InterviewerController::class, 'index'])->name('index');
+        // Route::resource('/admin/penerimaan', PenerimaanController::class);
+        // Route::get('/', [InterviewController::class, 'index'])->name('index');
     });
 });
 

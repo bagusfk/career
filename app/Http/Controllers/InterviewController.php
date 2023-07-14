@@ -12,7 +12,7 @@ class InterviewController extends Controller
      */
     public function index()
     {
-        //
+        return view('interviewer.interview');
     }
 
     /**

@@ -30,11 +30,13 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd($request);
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
+
 
         $user = User::create([
             'name' => $request->name,
@@ -44,17 +46,15 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        $profile = new \App\Models\Profile();
-        $profile->user_id = $user->id;
-        $profile->save();
+            $profile = new \App\Models\Profile();
+            $profile->user_id = $user->id;
+            $profile->save();
 
-        $berkas = new \App\Models\Berkas();
-        $berkas->profile_id = $profile->id;
-        $berkas->save();
-
-        Auth::login($user);
-
+            $berkas = new \App\Models\Berkas();
+            $berkas->profile_id = $profile->id;
+            $berkas->save();
 
         return redirect(RouteServiceProvider::HOME);
+
     }
 }
