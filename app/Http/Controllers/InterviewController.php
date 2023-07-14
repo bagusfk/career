@@ -24,10 +24,12 @@ class InterviewController extends Controller
      */
     public function create(Lamaran $interview)
     {
+        // dd($interview);
         $interviewers = User::where('role', 'interviewer')->get();
-        // dd($interviewers);
+        $jadwal = Interview::where('lamaran_id', $interview->id)->orderBy('updated_at', 'desc')->get();
+        // dd($jadwal);
 
-        return view('admin.interview.create', compact('interview','interviewers'));
+        return view('admin.interview.create', compact('interview','interviewers','jadwal'));
     }
 
     /**
@@ -61,7 +63,8 @@ class InterviewController extends Controller
             'lamaran_id' => $request->lamaran_id
         ]);
 
-        return redirect()->route('penerimaan.index')
+
+        return redirect()->route('interview.create', $request->lamaran_id)
             ->with('success', 'Jadwal Interview berhasil ditambahkan.');
     }
 
