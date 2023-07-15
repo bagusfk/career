@@ -35,7 +35,20 @@
                         <td class="px-6 py-4">
                             <a href="">Show</a>
                             @if ($row->status === 'test')
-                                |<a href="{{ url('storage/Files/'.$row->lowongan->file_test) }}" download>Download</a>
+                                |<a href="{{ url('storage/Files/'.$row->lowongan->file_test) }}" download>Download File Test</a>|
+                                @foreach ($answers as $item)
+                                    @if ($item->id===$row->id)
+                                        <h5>{{$item->file_url}}</h5>
+                                        <form action="{{ route('answer.update', $item->id) }}" method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="file" value="{{old('file_test',$item->file_url)}}" name="file_url" id="file_url" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                                            <x-primary-button class="ml-4">
+                                                {{ __('Kirim') }}
+                                            </x-primary-button>
+                                        </form>
+                                    @endif
+                                @endforeach
                             @endif
                         </td>
                     </tr>

@@ -73,7 +73,16 @@ class LamaranController extends Controller
      */
     public function update(Request $request, Lamaran $lamaran)
     {
-        //
+        // $answer = Lowongan::findOrFail($id);
+
+        // $validated = Validator::make($request->all(), [
+        //     'judul' => 'required',
+        //     'deskripsi' => 'required',
+        //     'posisi' => 'required',
+        //     'file_test' => 'mimes:pdf',
+        //     'tgl_open' => 'required|date',
+        //     'tgl_closed' => 'required|date',
+        // ]);
     }
 
     /**

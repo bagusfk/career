@@ -8,6 +8,7 @@ use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,7 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::Post('/lamaran/create', [LamaranController::class,'store'])->name('lamaran.store');
 
     Route::resource('/timeline', TimelineController::class);
+    Route::resource('/answer', AnswerController::class);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
