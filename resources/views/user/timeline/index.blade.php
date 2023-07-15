@@ -33,14 +33,10 @@
                         <td class="px-6 py-4">{{ $row->lowongan->posisi }}</td>
                         <td class="px-6 py-4">{{ $row->status }}</td>
                         <td class="px-6 py-4">
-                            <a href="#">Show</a>
-                            {{-- <a href="{{ route('lowongan.show', $lowongan->id) }}">show</a>| --}}
-                                {{-- <a href="{{ route('lowongan.edit', $lowongan->id) }}">edit</a> --}}
-                            {{-- <form method="post" action="{{ route('lowongan.destroy', $lowongan->id) }}" class="inline">
-                                @csrf
-                                @method('delete')
-                                <button class="border border-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-md">DELETE</button>
-                            </form> --}}
+                            <a href="">Show</a>
+                            @if ($row->status === 'test')
+                                |<a href="{{ url('storage/Files/'.$row->lowongan->file_test) }}" download>Download</a>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

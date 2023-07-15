@@ -47,6 +47,14 @@
                             </x-nav-link>
                         </div>
                     @endif
+                    {{-- @if (Auth::user()->role === 'interviewer'||Auth::user()->role ==='admin') --}}
+                    @if (in_array(Auth::user()->hasRole(), ['interviewer','admin']))
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="route('interviewer.index')" :active="request()->routeIs('interviewer.index')">
+                                {{ __('Kelola Interview') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
                 @endauth
             </div>
 

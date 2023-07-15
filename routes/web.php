@@ -47,13 +47,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/admin/lowongan', LowonganController::class);
         Route::resource('/admin/penerimaan', PenerimaanController::class);
         Route::resource('/admin/interviewers', InterviewerController::class);
-        Route::get('/interview/{interview}', [InterviewController::class,'create'])->name('interview.create');
-        Route::Post('/interview/create', [InterviewController::class,'store'])->name('interview.store');
+        Route::get('/admin/interview/{interview}', [InterviewController::class,'create'])->name('interview.create');
+        Route::Post('/admin/interview/create', [InterviewController::class,'store'])->name('interview.store');
     });
 
     Route::middleware('myrole:interviewer,admin')->group(function () {
         // Route::resource('/admin/penerimaan', PenerimaanController::class);
-        // Route::resource('interview', InterviewController::class);
+        Route::get('/interviewer', [InterviewController::class,'index'])->name('interviewer.index');
+        Route::get('/interviewer/interview/{interviewer}/edit', [InterviewController::class,'edit'])->name('interviewer.edit');
+        Route::Put('/interviewer/interview/{interviewer}', [InterviewController::class,'update'])->name('interviewer.update');
     });
 });
 

@@ -7,6 +7,8 @@ use App\Models\Lamaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class InterviewController extends Controller
@@ -16,7 +18,10 @@ class InterviewController extends Controller
      */
     public function index()
     {
-        return view('interviewer.index');
+        $user = Auth::user();
+        return response()->view('interviewer.index',[
+            'interviews'=>Interview::where('user_id', $user->id)->get(),
+        ]);
     }
 
     /**
@@ -25,7 +30,7 @@ class InterviewController extends Controller
     public function create(Lamaran $interview)
     {
         // dd($interview);
-        $interviewers = User::where('role', 'interviewer')->get();
+        $interviewers = User::where('role','interviewer')->orWhere('role', 'admin')->get();
         $jadwal = Interview::where('lamaran_id', $interview->id)->orderBy('updated_at', 'desc')->get();
         // dd($jadwal);
 
@@ -79,17 +84,46 @@ class InterviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Interview $interview)
+    public function edit(Interview $interviewer)
     {
-        //
+        // dd($interviewer);
+        $interviews = Interview::findOrFail($interviewer->id);
+        return view('interviewer.edit',compact('interviews'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Interview $interview)
+    public function update(Request $request, Interview $interviewer)
     {
-        //
+        $data = $request->validate([
+            'feedback' => 'required',
+        ]);
+        // dd($interviewer);
+
+        $interviewer->update($data);
+
+        // $datainterview = Interview::findOrFail($interviewer);
+
+
+        // $validated = Validator::make($request->all(), [
+        //     'feedback'=> 'required',
+        // ]);
+
+        // if($validated->fails()){
+        //     return redirect()->back()->withInput();
+        // }
+
+        // $update = $datainterview->update([
+        //     'feedback' => $request->feedback,
+        // ]);
+
+        // if(!$update) {
+        //     return abort(500);
+        // }
+
+        session()->flash('notif.success', 'feedback sent successfully!');
+        return redirect()->route('interviewer.edit', $interviewer->id);
     }
 
     /**

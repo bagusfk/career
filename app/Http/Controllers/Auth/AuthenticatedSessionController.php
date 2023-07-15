@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended('/admin');
         }
         if (Auth::user()->hasRole() == 'interviewer') {
-            return redirect()->intended('/interview');
+            return redirect()->intended('/interviewer');
         }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
