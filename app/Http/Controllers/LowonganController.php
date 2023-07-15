@@ -35,7 +35,7 @@ class LowonganController extends Controller
         if($validated->fails()){
             return redirect()->back()->withInput();
         }
-        
+
         $filename = null;
         if ($request->hasFile('file_test')) {
             $filename = uniqid('file-').'.'.$request->file('file_test')->extension();
@@ -59,7 +59,7 @@ class LowonganController extends Controller
 
     public function show($id)
     {
-        // 
+        //
     }
 
     public function edit($id)
@@ -84,15 +84,15 @@ class LowonganController extends Controller
         if($validated->fails()){
             return redirect()->back()->withInput();
         }
-        
+
         $filename = null;
         if ($request->hasFile('file_test')) {
             Storage::delete('public/Files/'.$lowongan->file_test);
-            
             $filename = uniqid('file-').'.'.$request->file('file_test')->extension();
             $request->file('file_test')->storeAs(
                 'public/Files', $filename
             );
+            // dd($request);
         }
 
         $update = $lowongan->update([

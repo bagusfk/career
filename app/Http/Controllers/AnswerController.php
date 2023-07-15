@@ -57,7 +57,7 @@ class AnswerController extends Controller
         $answers = Answer::findOrFail($answer);
 
         $validated = Validator::make($request->all(), [
-            'file_url' => 'mimes:pdf',
+            'file_url' => 'mimes:pdf'
         ]);
         // dd($validated);
 
@@ -68,15 +68,15 @@ class AnswerController extends Controller
         $filename = null;
         if ($request->hasFile('file_url')) {
             Storage::delete('public/Files/'.$answers->file_url);
-            dd($request);
+            // dd($request);
             $filename = uniqid('answer-').'.'.$request->file('file_url')->extension();
             $request->file('file_url')->storeAs(
                 'public/Files', $filename
             );
         }
-        dd($filename);
+        // dd($filename);
         $update = $answers->update([
-            'file_url' => $request->file_url,
+            'file_url' => $filename,
         ]);
 
         if(!$update) {

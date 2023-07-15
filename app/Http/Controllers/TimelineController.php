@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lamaran;
 use App\Models\Lowongan;
 use App\Models\Answer;
+use App\Models\Interview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,14 +19,19 @@ class TimelineController extends Controller
         $user =auth()->user();
         $lamarans = $user->profile->lamaran;
         $profileId = $user->profile->id;
+        // $interview = Interview::where('lamaran_id');
 
         $answers = Answer::whereHas('lamaran', function ($query) use ($profileId) {
             $query->where('profile_id', $profileId);
         })->get();
 
-        // dd($answers);
+        $interviews = Interview::whereHas('lamaran', function ($query) use ($profileId) {
+            $query->where('profile_id', $profileId);
+        })->get();
 
-        return view('user.timeline.index', compact('lamarans','answers'));
+        // dd($interviews);
+
+        return view('user.timeline.index', compact('lamarans','answers','interviews'));
 
         // return response()->view('user.timeline.index',[
         //     'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),

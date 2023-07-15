@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->text('link');
-            $table->date('tgl_interview');
+            $table->dateTime('tgl_interview');
             $table->text('feedback')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('lamaran_id')->constrained()->onDelete('cascade');
