@@ -9,6 +9,7 @@ use App\Http\Controllers\LamaranController;
 use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/admin/interviewers', InterviewerController::class);
         Route::get('/admin/interview/{interview}', [InterviewController::class,'create'])->name('interview.create');
         Route::Post('/admin/interview/create', [InterviewController::class,'store'])->name('interview.store');
+        Route::get('/admin/berkas-pelamar/{berkas}',[BerkasController::class,'show'])->name('berkas.show');
     });
 
     Route::middleware('myrole:interviewer,admin')->group(function () {

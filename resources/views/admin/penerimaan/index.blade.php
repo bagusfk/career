@@ -24,9 +24,6 @@
                         <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $row->profile->user->name }}</th>
                         <td class="px-6 py-4">{{ $row->lowongan->posisi }}</td>
                         <td class="px-6 py-4">
-                            {{-- <span id="status_{ $row->id }}">
-                                {{ $row->status }}
-                            </span> --}}
                             <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row">
                                 @csrf
                                 @method('PUT')
@@ -44,30 +41,66 @@
                             </form>
                         </td>
                         <td class="flex px-6 py-4 mx-auto">
+
+                            @if ($row->status === 'pemberkasan')
+                                @foreach ($berkas as $file)
+                                    @if ($file->profile_id === $row->profile_id)
+                                        <a href="{{ route('berkas.show', $file->id )}}" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                            Lihat Berkas
+                                        </a>
+                                    @endif
+                                @endforeach
+                                <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name='status' value="test">
+                                    <div class="">
+                                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mx-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Terpilih -></button>
+                                    </div>
+                                </form>
+                            @endif
+                            
+                        {{-- test --}}
                             @if ($row->status === 'test')
                                 @foreach ($answers as $item)
-                                    @if ($item->lamaran->id === $row->id)
+                                    @if ($item->lamaran_id === $row->id)
                                         <a href="{{url('storage/Files/'.$item->file_url)}}">
                                             {{$item->file_url}}
                                         </a>
                                     @endif
                                 @endforeach
                             @endif
+                            @if ($row->status === 'test')
+                                @foreach ($answers as $item)
+                                    @if ($item->lamaran_id === $row->id)
+                                        @if ($item->file_url != null)
+                                            <a href="{{ route('interview.create', $row->id) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none ml-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                Tahap Interview
+                                                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                                                </svg>
+                                            </a>
+                                        @endif
+                                    @endif
+                                @endforeach
+                            @endif
+                        {{-- end test --}}
+
                             @if ($row->status === 'interview')
-                                <a href="{{ route('interview.create', $row->id) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Kelola Jadwal Interview
+                                {{-- <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row">
+                                    @csrf
+                                    @method('PUT')
+                                    <x-text-input id="feedback" class="block mt-1 w-full" type="text" name="feedback" :value="old('feedback', $row->feedback)" required />
+
+                                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">kirim feedback</button>
+                                </form> --}}
+                                <a href="{{ route('interview.create', $row->id) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none ml-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Detail Interview
                                     <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                                     </svg>
                                 </a>
-                            @endif
-                            @if ($row->status === 'hired')
-                            <form action="{{ route('penerimaan.store', $row->id) }}" method="POST" class="flex flex-row">
-                                @csrf
-                                @method('PUT')
-                                <input type="text" name="feedback">
-                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">kirim feedback</button>
-                            </form>
+
                             @endif
 
                             {{-- <a href="{{ route('penerimaan.show', $row->id) }}" class="border border-primary px-4 py-2 rounded-md mr-2 hover:bg-primary-500 hover:text-white">Detail</a> --}}

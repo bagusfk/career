@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lamaran;
 use App\Models\Answer;
 use App\Models\Lowongan;
+use App\Models\Berkas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,12 +16,17 @@ class PenerimaanController extends Controller
      */
     public function index()
     {
+        $lamarans = Lamaran::orderBy('updated_at', 'desc')->get();
+        $answers = Answer::all();
+        $berkas = Berkas::all();
 
-        // dd($answers);
-        return response()->view('admin.penerimaan.index',[
-            'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),
-            'answers' => Answer::all(),
-        ]);
+        return view('admin.penerimaan.index', compact('lamarans', 'answers', 'berkas'));
+
+        // return response()->view('admin.penerimaan.index',[
+        //     'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),
+        //     'answers' => Answer::all(),
+        //     'berkas' => Berkas::all(),
+        // ]);
     }
 
     /**
@@ -34,15 +40,15 @@ class PenerimaanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,Lamaran $penerimaan)
+    public function store(Request $request, $penerimaan)
     {
-        $data = $request->validate([
-            'feedback' => 'required',
-        ]);
+        // $data = $request->validate([
+        //     'feedback' => 'required',
+        // ]);
 
-        $penerimaan->update($data);
+        // $penerimaan->update($data);
 
-        return redirect()->route('penerimaan.index')->with('success', 'Feedback Lamaran berhasil ditambah');
+        // return redirect()->route('penerimaan.index')->with('success', 'Feedback Lamaran berhasil ditambah');
     }
 
     /**
@@ -64,15 +70,35 @@ class PenerimaanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Lamaran $penerimaan)
+    public function update(Request $request,Lamaran $penerimaan)
     {
-        $data = $request->validate([
-            'status' => 'required',
-        ]);
+        // dd($request);
+        // if ($request->status = !null) {
+            $data = $request->validate([
+                'status' => 'required',
+            ]);
 
-        $penerimaan->update($data);
+            $penerimaan->update($data);
 
-        return redirect()->route('penerimaan.index')->with('success', 'Status Lamaran berhasil diperbarui');
+            return redirect()->route('penerimaan.index')->with('success', 'Status Lamaran berhasil diperbarui');
+        // } else {
+            // dd($request);
+            // $penerimaans= Lamaran::findOrFail($penerimaan);
+
+            // $datas = $request->validate([
+            //     'feedback' => 'required',
+            // ]);
+
+            // $update = $penerimaans->update([
+            //     'feedback' => $request->feedback,
+            // ]);
+
+            // if(!$update) {
+            //     return abort(500);
+            // }
+
+            // return redirect()->route('penerimaan.index')->with('success', 'feedback Lamaran berhasil diperbarui');
+        // }
     }
 
     /**

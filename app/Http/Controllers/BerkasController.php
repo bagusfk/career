@@ -12,7 +12,7 @@ class BerkasController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -34,9 +34,12 @@ class BerkasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Berkas $berkas)
+    public function show($id)
     {
-        //
+        $file = Berkas::findOrFail($id);
+        // dd($file);
+
+        return view('admin.penerimaan.berkas.show', compact('file'));
     }
 
     /**

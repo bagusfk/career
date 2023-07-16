@@ -68,9 +68,10 @@ class InterviewController extends Controller
             'lamaran_id' => $request->lamaran_id
         ]);
 
+        Lamaran::where('id', $request->lamaran_id)->update(['status' => 'interview']);
 
         return redirect()->route('interview.create', $request->lamaran_id)
-            ->with('success', 'Jadwal Interview berhasil ditambahkan.');
+            ->with('success', 'Jadwal Interview berhasil ditambahkan dan status berhasil dirubah ke interview.');
     }
 
     /**
