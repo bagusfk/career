@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lamaran;
+use App\Models\Answer;
 use App\Models\Lowongan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,8 +15,11 @@ class PenerimaanController extends Controller
      */
     public function index()
     {
+
+        // dd($answers);
         return response()->view('admin.penerimaan.index',[
             'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),
+            'answers' => Answer::all(),
         ]);
     }
 
@@ -30,9 +34,15 @@ class PenerimaanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,Lamaran $penerimaan)
     {
-        //
+        $data = $request->validate([
+            'feedback' => 'required',
+        ]);
+
+        $penerimaan->update($data);
+
+        return redirect()->route('penerimaan.index')->with('success', 'Feedback Lamaran berhasil ditambah');
     }
 
     /**

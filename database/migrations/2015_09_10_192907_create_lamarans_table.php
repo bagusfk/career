@@ -21,6 +21,7 @@ return new class extends Migration
                 'failed',
                 'blacklist'
                 ])->default('pemberkasan');
+            $table->text('feedback')->nullable();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->foreignId('lowongan_id')->constrained()->onDelete('cascade');
             $table->timestamps();

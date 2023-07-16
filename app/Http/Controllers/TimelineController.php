@@ -25,6 +25,7 @@ class TimelineController extends Controller
             $query->where('profile_id', $profileId);
         })->get();
 
+        // $interviews = Interview::all();
         $interviews = Interview::whereHas('lamaran', function ($query) use ($profileId) {
             $query->where('profile_id', $profileId);
         })->get();

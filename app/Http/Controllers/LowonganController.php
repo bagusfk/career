@@ -70,7 +70,7 @@ class LowonganController extends Controller
 
     public function update(Request $request, $id)
     {
-        $lowongan = Lowongan::findOrFail($id);
+        $lowongans = Lowongan::findOrFail($id);
 
         $validated = Validator::make($request->all(), [
             'judul' => 'required',
@@ -80,14 +80,14 @@ class LowonganController extends Controller
             'tgl_open' => 'required|date',
             'tgl_closed' => 'required|date',
         ]);
-
+        // dd($validated);
         if($validated->fails()){
             return redirect()->back()->withInput();
         }
 
         $filename = null;
         if ($request->hasFile('file_test')) {
-            Storage::delete('public/Files/'.$lowongan->file_test);
+            Storage::delete('public/Files/'.$lowongans->file_test);
             $filename = uniqid('file-').'.'.$request->file('file_test')->extension();
             $request->file('file_test')->storeAs(
                 'public/Files', $filename
@@ -95,7 +95,7 @@ class LowonganController extends Controller
             // dd($request);
         }
 
-        $update = $lowongan->update([
+        $update = $lowongans->update([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'posisi' => $request->posisi,
