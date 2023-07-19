@@ -73,15 +73,6 @@ class GeneralProfileController extends Controller
             return redirect()->back()->withInput();
         }
 
-//        $filename = null;
-//        if ($request->hasFile('file_test')) {
-//            Storage::delete('public/Files/'.$lowongans->file_test);
-//            $filename = uniqid('file-').'.'.$request->file('file_test')->extension();
-//            $request->file('file_test')->storeAs(
-//                'public/Files', $filename
-//            );
-//            // dd($request);
-//        }
         $update = $profiles->update([
             'no_hp' => $request->no_hp,
             'alamat' => $request->alamat,
@@ -98,6 +89,37 @@ class GeneralProfileController extends Controller
         session()->flash('notif.success', 'profile updated successfully!');
         return redirect()->route('profiles.edit', $profiles->id);
 
+    }
+
+    public function updatePhoto(Request $request, string $id)
+    {
+        $profiles = Profile::findOrFail($id);
+//        dd($profiles);
+        $validated = Validator::make($request->all(), [
+            'image' => 'required|image|max:2048',
+        ]);
+//         dd($validated);
+        if($validated->fails()){
+            return redirect()->back()->withInput();
+        }
+
+        if ($request->hasFile('image')) {
+            Storage::delete('public/Images/'.$profiles->image);
+            $imagename = uniqid('profile-').'.'.$request->file('image')->extension();
+            $request->file('image')->storeAs(
+                'public/Images', $imagename
+            );
+            $profiles->image = $imagename;
+        }
+
+        $update = $profiles->save();
+
+        if(!$update) {
+            return abort(500);
+        }
+
+        session()->flash('notif.success', 'Photo profile updated successfully!');
+        return redirect()->route('profiles.edit', $profiles->id);
     }
 
     /**

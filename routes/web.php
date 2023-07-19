@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {return view('dashboard');})->name('user.index');
+Route::get('/ui', function () {return view('newUI');});
 
 Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::get('/account', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -43,7 +44,9 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::resource('/timeline', TimelineController::class);
     Route::resource('/answer', AnswerController::class);
 
-    Route::resource('/profiles', GeneralProfileController::class);
+    Route::resource('/profiles', GeneralProfileController::class)
+        ->only(['edit','update']);
+    Route::Put('/profiles/image/{profile}', [GeneralProfileController::class, 'updatePhoto'])->name('updatePhoto.update');
     Route::resource('/berkas', BerkasController::class)
         ->only(['edit','update']);
 });

@@ -7,9 +7,6 @@
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {{ __("Update your account's profile information and email address.") }}
         </p>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{$profile->id}}
-        </p>
     </header>
 
     <form method="post" action="{{ route('profiles.update', $profile->id ) }}" enctype="multipart/form-data">
@@ -18,15 +15,15 @@
         <div class="grid gap-4 mb-4 sm:grid-cols-2">
             <div>
                 <x-input-label for="title" :value="__('No Telephone')"/>
-                <x-text-input id="title" class="block mt-1 w-full" type="number" name="no_hp" :value="old('no_hp', $profile->no_hp)" required autofocus />
+                <x-text-input id="title" class="block mt-1 w-full" type="number" name="no_hp" :value="old('no_hp', $profile->no_hp)" required />
             </div>
             <div>
                 <x-input-label for="title" :value="__('Tanggal Lahir')"/>
-                <x-text-input id="title" class="block mt-1 w-full" type="date" name="tgl_lahir" :value="old('tgl_lahir', $profile->tgl_lahir)" required autofocus />
+                <x-text-input id="title" class="block mt-1 w-full" type="date" name="tgl_lahir" :value="old('tgl_lahir', $profile->tgl_lahir)" required/>
             </div>
             <div>
                 <x-input-label for="title" :value="__('Asal Universitas')"/>
-                <x-text-input id="title" class="block mt-1 w-full" type="text" name="sekolah" :value="old('sekolah', $profile->sekolah)" required autofocus />
+                <x-text-input id="title" class="block mt-1 w-full" type="text" name="sekolah" :value="old('sekolah', $profile->sekolah)" required/>
             </div>
             <div>
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Kelamin</label>
