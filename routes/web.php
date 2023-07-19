@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {return view('dashboard');})->name('user.index');
-Route::get('/ui', function () {return view('newUI');});
+Route::get('/ui', function () {return view('partials.exp');});
 
 Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::get('/account', [ProfileController::class, 'edit'])->name('profile.edit');
