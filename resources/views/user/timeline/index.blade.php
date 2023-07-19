@@ -60,6 +60,14 @@
                                     @endif
                                 @endforeach
                             @endif
+
+                            @if($row->status === 'failed')
+                                <h5>{{$row->feedback}}</h5>
+                            @endif
+
+                            @if($row->status === 'hired')
+                                <h5>Omedeto anda ketrima sebagai {{$row->lowongan->posisi}}</h5>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

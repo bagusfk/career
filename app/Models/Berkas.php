@@ -14,7 +14,7 @@ class Berkas extends Model
         'cv',
         'transkip',
         'ijazah',
-        'profiling_file',
+        'profiling',
     ];
 
     public function profile()

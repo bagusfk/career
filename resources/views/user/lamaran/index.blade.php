@@ -5,6 +5,31 @@
         </h2>
     </x-slot>
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="fixed inset-0 flex items-center justify-center z-50">
+            <div id="alert-4" class="flex items-center p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800" role="alert">
+                <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div>
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+            </div>
+        </div>
+        <script>
+            setTimeout(function () {
+                document.querySelector('.fixed').remove();
+            }, 3000);
+        </script>
+    @endif
+
     <h1 class="py-12 text-3xl dark:text-white text-center">Halo <span>{{ Auth::user()->name }}</span> Di List Lowongan</h1>
     <div class="flex ">
         <div class="flex flex-col lg:flex-row lg:flex-wrap gap-4 max-w-7xl mx-auto sm:px-6 lg:px-8">

@@ -27,12 +27,12 @@
                             <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row">
                                 @csrf
                                 @method('PUT')
-                                <select  name="status" id="underline_select" class="block py-2.5 px-0 w-sm text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                                <select name="status" id="underline_select" class="block py-2.5 px-0 w-sm text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
                                     <option value="pemberkasan" {{ $row->status === 'pemberkasan' ? 'selected' : '' }}>pemberkasan</option>
                                     <option value="test" {{ $row->status === 'test' ? 'selected' : '' }}>test</option>
                                     <option value="interview" {{ $row->status === 'interview' ? 'selected' : '' }}>interview</option>
                                     <option value="hired" {{ $row->status === 'hired' ? 'selected' : '' }}>hired</option>
-                                    <option value="failed" {{ $row->status === 'failed' ? 'selected' : '' }}>filed</option>
+                                    <option value="failed" {{ $row->status === 'failed' ? 'selected' : '' }}>failed</option>
                                     <option value="blacklist" {{ $row->status === 'blacklist' ? 'selected' : '' }}>blacklist</option>
                                 </select>
                                 <div class="">
@@ -59,7 +59,7 @@
                                     </div>
                                 </form>
                             @endif
-                            
+
                         {{-- test --}}
                             @if ($row->status === 'test')
                                 @foreach ($answers as $item)
@@ -87,23 +87,29 @@
                         {{-- end test --}}
 
                             @if ($row->status === 'interview')
-                                {{-- <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row">
-                                    @csrf
-                                    @method('PUT')
-                                    <x-text-input id="feedback" class="block mt-1 w-full" type="text" name="feedback" :value="old('feedback', $row->feedback)" required />
-
-                                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">kirim feedback</button>
-                                </form> --}}
                                 <a href="{{ route('interview.create', $row->id) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none ml-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     Detail Interview
                                     <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                                     </svg>
                                 </a>
-
+                                <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <x-text-input type="hidden" id="feedback" class="block mx-4 w-full" name="feedback" :value="old('feedback', $row->feedback)"/>
+                                    <input type="hidden" name='status' value="hired">
+                                    <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Hired</button>
+                                </form>
+                                <a href="{{ route('penerimaan.edit', $row->id) }}" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Filed</a>
+                                <button type="button" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Blacklist</button>
+                                <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
+                                    @csrf
+                                    @method('PUT')
+                                    <x-text-input type="hidden" id="feedback" class="block mx-4 w-full" name="feedback" :value="old('feedback', $row->feedback)"/>
+                                    <input type="hidden" name='status' value="blacklist">
+                                    <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Hired</button>
+                                </form>
                             @endif
-
-                            {{-- <a href="{{ route('penerimaan.show', $row->id) }}" class="border border-primary px-4 py-2 rounded-md mr-2 hover:bg-primary-500 hover:text-white">Detail</a> --}}
                         </td>
                     </tr>
                 @endforeach

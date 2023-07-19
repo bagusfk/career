@@ -123,6 +123,6 @@ class LowonganController extends Controller
         }
 
         session()->flash('notif.success', 'lowongan deleted successfully!');
-        return redirect()->route('lowongan.index');
+        return redirect()->back()->with('success', 'Dokumen berhasil diperbarui.');
     }
 }

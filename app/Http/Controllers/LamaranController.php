@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lamaran;
 use App\Models\Lowongan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -25,6 +26,16 @@ class LamaranController extends Controller
      */
     public function create(Lowongan $lowongan)
     {
+        $profileId= Auth::User()->profile->id;
+//        dd($user);
+        $lamaran = Lamaran::where('profile_id', $profileId)->get();
+//        dd($lamaran);
+        foreach ($lamaran as $row) {
+            if ($row->status !== 'failed') {
+                return redirect()->route('lamaran.index')->with('error', 'Anda tidak dapat melamar saat ini.');
+            }
+        };
+
         return view('user.lamaran.create', compact('lowongan'));
     }
 

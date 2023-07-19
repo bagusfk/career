@@ -62,43 +62,42 @@ class PenerimaanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $lamaran = Lamaran::findOrFail($id);
+//        dd($lamaran);
+        return view('admin.penerimaan.failed', compact('lamaran'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,Lamaran $penerimaan)
+    public function update(Request $request, $id)
     {
-        // dd($request);
-        // if ($request->status = !null) {
-            $data = $request->validate([
+            $penerimaans = Lamaran::findOrFail($id);
+//            dd($penerimaans);
+//            $data = $request->validate([
+//                'feedback' => 'nullable',
+//                'status' => 'required',
+//            ]);
+            $validated = Validator::make($request->all(), [
+                'feedback' => 'nullable',
                 'status' => 'required',
             ]);
+//            dd($validated);
+            if($validated->fails()){
+                return redirect()->back()->withInput();
+            }
+//            dd($request);
+            $update = $penerimaans->update([
+                'feedback' => $request->feedback,
+                'status' => $request->status,
+            ]);
 
-            $penerimaan->update($data);
-
+            if(!$update) {
+                return abort(500);
+            }
             return redirect()->route('penerimaan.index')->with('success', 'Status Lamaran berhasil diperbarui');
-        // } else {
-            // dd($request);
-            // $penerimaans= Lamaran::findOrFail($penerimaan);
-
-            // $datas = $request->validate([
-            //     'feedback' => 'required',
-            // ]);
-
-            // $update = $penerimaans->update([
-            //     'feedback' => $request->feedback,
-            // ]);
-
-            // if(!$update) {
-            //     return abort(500);
-            // }
-
-            // return redirect()->route('penerimaan.index')->with('success', 'feedback Lamaran berhasil diperbarui');
-        // }
     }
 
     /**

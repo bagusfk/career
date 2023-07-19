@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GeneralProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InterviewerController;
 use App\Http\Controllers\InterviewController;
@@ -31,9 +32,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {return view('dashboard');})->name('user.index');
 
 Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/account', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/account', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/account', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/lamaran', [LamaranController::class,'index'])->name('lamaran.index');
     Route::get('/lamaran/{lowongan}', [LamaranController::class,'create'])->name('lamaran.create');
@@ -41,6 +42,10 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
 
     Route::resource('/timeline', TimelineController::class);
     Route::resource('/answer', AnswerController::class);
+
+    Route::resource('/profiles', GeneralProfileController::class);
+    Route::resource('/berkas', BerkasController::class)
+        ->only(['edit','update']);
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
