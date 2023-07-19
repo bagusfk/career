@@ -27,10 +27,10 @@
         <!-- Main Styling -->
         <link href="./assets/css/argon-dashboard-tailwind.css?v=1.0.1" rel="stylesheet" />
     </head>
-    
+
     <body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
         <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
-
+        @include('')
         <!-- sidenav  -->
         <aside class="fixed inset-y-0 flex-wrap items-center justify-between block w-full p-0 my-4 overflow-y-auto antialiased transition-transform duration-200 -translate-x-full bg-white border-0 shadow-xl dark:shadow-none dark:bg-slate-850 max-w-64 ease-nav-brand z-990 xl:ml-6 rounded-2xl xl:left-0 xl:translate-x-0" aria-expanded="false">
             <div class="h-19">
@@ -189,7 +189,7 @@
 
             <!-- conten -->
             <div class="w-full px-6 py-6 mx-auto min-h-screen">
-                <!-- conten -->
+{{--                {{ $slot }}--}}
             </div>
 
             <footer class="pt-4 mb-8">
