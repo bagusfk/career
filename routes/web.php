@@ -12,6 +12,7 @@ use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Models\Lowongan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,16 +29,20 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+//Route::get('/ui', function () {return view('partials.exp');});
 
-Route::get('/', function () {return view('dashboard');})->name('user.index');
-Route::get('/ui', function () {return view('partials.exp');});
+Route::get('/', function () {
+    return response()->view('dashboard',[
+        'lowongans'=>Lowongan::take(2)->get(),
+    ]);
+})->name('user.index');
+Route::get('/lowongan', [LamaranController::class,'index'])->name('lamaran.index');
 
 Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::get('/account', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/account', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/account', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/lamaran', [LamaranController::class,'index'])->name('lamaran.index');
     Route::get('/lamaran/{lowongan}', [LamaranController::class,'create'])->name('lamaran.create');
     Route::Post('/lamaran/create', [LamaranController::class,'store'])->name('lamaran.store');
 

@@ -30,8 +30,7 @@
         </script>
     @endif
 
-    <h1 class="py-12 text-3xl dark:text-white text-center">Halo <span>{{ Auth::user()->name }}</span> Di List Lowongan</h1>
-    <div class="flex ">
+    <div class="flex mt-16">
         <div class="flex flex-col lg:flex-row lg:flex-wrap gap-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
             @foreach($lowongans as $lowongan)
                 <div class="max-w-sm md:w-96 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 content-between grid grid-cols-1 h-60">
