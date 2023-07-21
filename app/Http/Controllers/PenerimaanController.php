@@ -6,6 +6,7 @@ use App\Models\Lamaran;
 use App\Models\Answer;
 use App\Models\Lowongan;
 use App\Models\Berkas;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -76,13 +77,14 @@ class PenerimaanController extends Controller
     {
             $penerimaans = Lamaran::findOrFail($id);
 //            dd($penerimaans);
-//            $data = $request->validate([
-//                'feedback' => 'nullable',
-//                'status' => 'required',
-//            ]);
+            $userId= $penerimaans->profile->user->id;
+//            dd($userId);
+            $users = User::findOrFail($userId);
+
             $validated = Validator::make($request->all(), [
-                'feedback' => 'nullable',
+                'feedback' => 'string',
                 'status' => 'required',
+                'status_user' => 'string',
             ]);
 //            dd($validated);
             if($validated->fails()){
@@ -93,10 +95,19 @@ class PenerimaanController extends Controller
                 'feedback' => $request->feedback,
                 'status' => $request->status,
             ]);
-
             if(!$update) {
                 return abort(500);
             }
+
+            $updates = $users->update([
+                'status_user' => $request->status_user,
+            ]);
+
+
+            if(!$updates) {
+                return abort(500);
+            }
+
             return redirect()->route('penerimaan.index')->with('success', 'Status Lamaran berhasil diperbarui');
     }
 

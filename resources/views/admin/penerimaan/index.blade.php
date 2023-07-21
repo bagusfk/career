@@ -88,26 +88,11 @@
 
                             @if ($row->status === 'interview')
                                 <a href="{{ route('interview.create', $row->id) }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none ml-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Detail Interview
+                                    Kelola Interview
                                     <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                                     </svg>
                                 </a>
-                                <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-                                    <x-text-input type="hidden" id="feedback" class="block mx-4 w-full" name="feedback" :value="old('feedback', $row->feedback)"/>
-                                    <input type="hidden" name='status' value="hired">
-                                    <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Hired</button>
-                                </form>
-                                <a href="{{ route('penerimaan.edit', $row->id) }}" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Filed</a>
-                                <form action="{{ route('penerimaan.update', $row->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
-                                    <x-text-input type="hidden" id="feedback" class="block mx-4 w-full" name="feedback" :value="old('feedback', $row->feedback)"/>
-                                    <input type="hidden" name='status' value="blacklist">
-                                    <button type="submit" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Blacklist</button>
-                                </form>
                             @endif
                         </td>
                     </tr>

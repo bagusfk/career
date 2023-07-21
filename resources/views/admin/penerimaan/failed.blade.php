@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="max-w-3xl mx-auto p-6 lg:p-8">
         <form action="{{ route('penerimaan.update', $lamaran->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
             @csrf
