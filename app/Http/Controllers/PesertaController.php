@@ -2,17 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Models\Lamaran;
+use App\Models\Lowongan;
+use App\Models\Profile;
+use App\Models\User;
+
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class PesertaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $lamarans = Lamaran::whereHas('profile', function ($query) {
+            $query->whereHas('user', function ($query) {
+                $query->where('status_user', 'peserta');
+            });
+        })->get();
+
+        return response()->view('admin.penerimaan.peserta.index',compact('lamarans'));
     }
 
     /**
@@ -20,7 +30,14 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $lamarans = Lamaran::whereHas('profile', function ($query) {
+            $query->whereHas('user', function ($query) {
+                $query->where('status_user', 'peserta');
+            });
+        })->get();
+
+        
+        return view('admin.penerimaan.peserta.pdf',compact('lamarans'));
     }
 
     /**

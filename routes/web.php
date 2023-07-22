@@ -11,6 +11,7 @@ use App\Http\Controllers\PenerimaanController;
 use App\Http\Controllers\TimelineController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\BerkasController;
+use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Models\Lowongan;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
         Route::resource('/admin/lowongan', LowonganController::class);
         Route::resource('/admin/penerimaan', PenerimaanController::class);
+        Route::resource('/admin/peserta', PesertaController::class);
         Route::resource('/admin/interviewers', InterviewerController::class);
         Route::get('/admin/interview/{interview}', [InterviewController::class,'create'])->name('interview.create');
         Route::Post('/admin/interview/create', [InterviewController::class,'store'])->name('interview.store');

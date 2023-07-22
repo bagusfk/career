@@ -45,9 +45,22 @@
                             </x-nav-link>
                         </div>
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <x-nav-link :href="route('penerimaan.index')" :active="request()->routeIs('penerimaan.index')">
-                                {{ __('Penerimaan') }}
+                            <x-nav-link id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" :active="request()->routeIs('penerimaan.index')|request()->routeIs('peserta.index')" href="#" >
+                                {{ __('Kelola Lamaran') }}<svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                </svg>
                             </x-nav-link>
+                            {{--dropdown--}}
+                            <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                                    <li>
+                                        <a href="{{route('penerimaan.index')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Lamaran</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('peserta.index')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Peserta Lolos</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-nav-link :href="route('interviewers.index')" :active="request()->routeIs('interviewers.index')">

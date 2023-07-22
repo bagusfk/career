@@ -82,12 +82,13 @@ class PenerimaanController extends Controller
             $users = User::findOrFail($userId);
 
             $validated = Validator::make($request->all(), [
-                'feedback' => 'string',
+                'feedback' => 'nullable|string',
                 'status' => 'required',
                 'status_user' => 'string',
             ]);
-//            dd($validated);
+
             if($validated->fails()){
+                dd($validated);
                 return redirect()->back()->withInput();
             }
 //            dd($request);
