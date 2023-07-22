@@ -7,6 +7,9 @@ use App\Models\Lowongan;
 use App\Models\Profile;
 use App\Models\User;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Carbon\Traits\Date;
 use Illuminate\Http\Request;
 
 class PesertaController extends Controller
@@ -36,7 +39,9 @@ class PesertaController extends Controller
             });
         })->get();
 
-        
+        $pdf = Pdf::loadView('admin.penerimaan.peserta.pdf', compact('lamarans'));
+        return $pdf->download(Carbon::now()->timestamp.'-data-peserta.pdf');
+
         return view('admin.penerimaan.peserta.pdf',compact('lamarans'));
     }
 
