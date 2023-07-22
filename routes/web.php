@@ -67,6 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/admin/interviewers', InterviewerController::class);
         Route::get('/admin/interview/{interview}', [InterviewController::class,'create'])->name('interview.create');
         Route::Post('/admin/interview/create', [InterviewController::class,'store'])->name('interview.store');
+        Route::Put('/admin/interview/{id}', [InterviewController::class,'updateJadwal'])->name('interview.update');
         Route::get('/admin/berkas-pelamar/{berkas}',[BerkasController::class,'show'])->name('berkas.show');
     });
 

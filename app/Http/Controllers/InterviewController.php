@@ -33,7 +33,6 @@ class InterviewController extends Controller
         $interviewers = User::where('role','interviewer')->orWhere('role', 'admin')->get();
         $jadwal = Interview::where('lamaran_id', $interview->id)->orderBy('updated_at', 'desc')->get();
         // dd($jadwal);
-
         return view('admin.interview.create', compact('interview','interviewers','jadwal'));
     }
 
@@ -91,7 +90,31 @@ class InterviewController extends Controller
         $interviews = Interview::findOrFail($interviewer->id);
         return view('interviewer.edit',compact('interviews'));
     }
+    public function updateJadwal(Request $request,$id)
+    {
+        $data = Interview::findOrFail($id);
+//        dd($data);
+        $validated=Validator::make($request->all(), [
+            'type' => 'required',
+            'tgl_interview' => 'required',
+            'user_id' => 'required',
+            'link' => 'required',
+        ]);
+        // dd($interviewer);
+        if($validated->fails()){
+            return redirect()->back()->withInput();
+        }
 
+        $data->update([
+            'type' => $request->type,
+            'tgl_interview' => $request->tgl_interview,
+            'user_id' => $request->user_id,
+            'link' => $request->link,
+        ]);
+
+        session()->flash('notif.success', 'update successfully!');
+        return redirect()->route('interview.create', $data->lamaran->id);
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -103,25 +126,6 @@ class InterviewController extends Controller
         // dd($interviewer);
 
         $interviewer->update($data);
-
-        // $datainterview = Interview::findOrFail($interviewer);
-
-
-        // $validated = Validator::make($request->all(), [
-        //     'feedback'=> 'required',
-        // ]);
-
-        // if($validated->fails()){
-        //     return redirect()->back()->withInput();
-        // }
-
-        // $update = $datainterview->update([
-        //     'feedback' => $request->feedback,
-        // ]);
-
-        // if(!$update) {
-        //     return abort(500);
-        // }
 
         session()->flash('notif.success', 'feedback sent successfully!');
         return redirect()->route('interviewer.edit', $interviewer->id);

@@ -60,7 +60,7 @@
                         </div>
                     </div>
                 </div>
-{{--                Blacklist--}}
+                {{--Blacklist--}}
                 <div x-data="{ open: false }">
                     <button @click="open = true" class="w-full text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
                         Failed & Blacklist Pelamar
@@ -86,14 +86,62 @@
 
             <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-700" >
             <h3 class="mb-4 text-md font-semibold tracking-tight text-gray-900 dark:text-white">Jadwal Interview</h3>
-
+            {{--jadwal interview--}}
             @foreach ($jadwal as $row)
                 <div class="w-full my-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <a href="#">
-                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            {{$row->type}}
-                        </h5>
-                    </a>
+                    @if ($row->feedback === null)
+                        <div x-data="{ open : false }" class="flex justify-end px-4"">
+                            <div x-show="open" class="fixed inset-0 bg-black opacity-50 z-40"></div>
+                            <button @click=" open = true " class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded-lg">Edit</button>
+                            <div class="fixed inset-0 flex items-center justify-center z-50" x-show="open">
+                                <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-fit">
+                                    <div class="mt-4 flex justify-end">
+                                        <h2 class="text-xl font-bold mb-4">{{$row->id}}</h2>
+                                        <button class="ml-2 border-2 border-gray-300 hover:bg-gray-400 text-gray-300 hover:text-gray-800 font-bold py-2 px-4 rounded mr-2" @click="open = false">
+                                            X
+                                        </button>
+                                    </div>
+                                    <form action="{{ route('interview.update', $row->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                                            <div class="sm:col-span-2">
+                                                <label for="type" class="block mb-2 text-md font-semibold text-gray-900 dark:text-white">Judul Interview</label>
+                                                <x-text-input id="type" class="block mt-1 w-full dark:placeholder-gray-400" type="text" name="type" required autofocus autocomplete="type" placeholder="Topic of Conversation" value="{{$row->type}}"/>
+                                            </div>
+                                            <div class="w-full">
+                                                <label for="tgl_interview" class="block mb-2 text-md font-semibold text-gray-900 dark:text-white">Tanggal of Interview</label>
+                                                <x-text-input id="tgl_interview" class="block mt-1 w-full " type="datetime-local" name="tgl_interview" required autofocus value="{{$row->tgl_interview}}"/>
+                                            </div>
+                                            <div class="w-full">
+                                                <label for="user_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Interviewer</label>
+                                                <select id="interviewer" name="user_id" class="block w-full py-2.5 px-0 text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-500 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-300 peer" required>
+                                                    <option value="" disabled selected>-- Pilih Interviewer--</option>
+                                                    @foreach($interviewers as $interviewer)
+                                                        <option value="{{ $interviewer->id}}"{{ $interviewer->id === $row->user_id ? 'selected' : '' }}>{{ $interviewer->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="sm:col-span-2">
+                                                <label for="description" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Link</label>
+                                                <textarea id="description" name="link" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Your link">{{$row->link}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 flex justify-end">
+                                            <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+                                                Update Jadwal
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+{{--                            <a href="{{route('interview.editJadwal', $row->id)}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white rounded-lg">Edit</a>--}}
+                        </div>
+                    @endif
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        {{$row->type}}-{{$row->id}}
+                    </h5>
                     <p class="mb-3 text-md font-normal text-gray-700 dark:text-gray-400">
                         interview pada {{$row->tgl_interview=date("l, j F Y")}},
                         jam {{$row->tgl_interview=date("H:i a")}}
@@ -129,7 +177,7 @@
                                     <!-- Modal body -->
                                     <div class="p-6 space-y-6">
                                         <p class="text-base leading-relaxed text-gray-500 dark:text-white">
-                                        Interviewer : {{$row->user->name}}
+                                        Interviewer : {{$row->user->name}}-{{$row->id}}
                                         </p>
                                         <p class="text-base leading-relaxed text-gray-700 dark:text-gray-400">
                                         Feedback : <br> {{$row->feedback}}
@@ -142,8 +190,8 @@
                                 </div>
                             </div>
                         </div>
-                    @else
-                        <button disabled  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-500 rounded-lg">
+                        @else
+                            <button disabled  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-gray-500 rounded-lg">
                             Belum ada Feedback
                         </button>
                     @endif
@@ -151,9 +199,12 @@
             @endforeach
         </div>
         <div class="p-8 md:p-9">
+
             <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Jadwal Interview</h2>
+
             <form action="{{ route('interview.store') }}" method="POST">
                 @csrf
+
                 <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
                     <div class="sm:col-span-2">
                         <label for="type" class="block mb-2 text-md font-semibold text-gray-900 dark:text-white">Judul Interview</label>

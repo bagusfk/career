@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="grid max-w-screen-xl px-4 py-12 mx-auto md:gap-4 md:grid-cols-12">
-        <div class="md:col-span-4 flex flex-col items-center py-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class="md:col-span-4 grid items-center justify-items-center py-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             @if($file->profile->image)
                 <div class="relative w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                     <img src="/storage/Images/{{$file->profile->image}}" alt="{{$file->profile->image}}"/>
