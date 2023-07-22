@@ -20,7 +20,7 @@
             </thead>
             <tbody>
                 @foreach ($lamarans as $row)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <tr class="@if($row->profile->user->status_user==='blacklist') bg-red-300 @else bg-white dark:bg-gray-800 @endif border-b dark:border-gray-700">
                         <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $row->profile->user->name }}</th>
                         <td class="px-6 py-4">{{ $row->lowongan->posisi }}</td>
                         <td class="px-6 py-4">
