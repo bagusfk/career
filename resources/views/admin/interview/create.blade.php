@@ -25,33 +25,57 @@
                     </div>
                 </div>
             </form>
-{{--            @foreach ($jadwal as $row) @endforeach--}}
-            @if($jadwal->where('feedback','=', null)->count() === 0)
-                <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-700" >
-                <p class="mb-3 text-md font-normal text-gray-700 dark:text-gray-400">jika interviewer sudah melakukan interview dan memberikan feedback anda dapat memutuskan pelamar diterima atau tidak (jika hasil interview dirasa kurang, anda dapat membuat jadwal interview selanjutnya) :</p>
-                <div class="grid grid-cols-2 gap-4 mx-auto">
-                    <form action="{{ route('penerimaan.update', $interview->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <x-text-input type="hidden" id="feedback" class="block mx-4 w-full" name="feedback" :value="old('feedback', $interview->feedback)"/>
-                        <input type="hidden" name='status' value="hired">
-                        <input type="hidden" name='status_user' value="peserta">
-                        <button type="submit" class="w-full text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Hired</button>
-                    </form>
+            {{--if for button hired,failed,blacklist--}}
+            @if($jadwal->where('lamaran_id','=', $interview->id)->count() !== 0)
+                @if($jadwal->where('feedback','=', null)->count() === 0)
+                    <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-700" >
+                    <p class="mb-3 text-md font-normal text-gray-700 dark:text-gray-400">jika interviewer sudah melakukan interview dan memberikan feedback anda dapat memutuskan pelamar diterima atau tidak (jika hasil interview dirasa kurang, anda dapat membuat jadwal interview selanjutnya) :</p>
+                    <div class="grid grid-cols-2 gap-4 mx-auto">
+                        <form action="{{ route('penerimaan.update', $interview->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <x-text-input type="hidden" id="feedback" class="block mx-4 w-full" name="feedback" :value="old('feedback', $interview->feedback)"/>
+                            <input type="hidden" name='status' value="hired">
+                            <input type="hidden" name='status_user' value="peserta">
+                            <button type="submit" class="w-full text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Hired</button>
+                        </form>
+                        <div x-data="{ open: false }">
+                            <button @click="open = true" class="w-full text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                                Failed
+                            </button>
+                            <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" @click.away="open = false">
+                                <div class="bg-white p-4">
+                                    <h2>Feed back</h2>
+                                    <form action="{{ route('penerimaan.update', $interview->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="flex justify-between mt-4">
+                                            <x-text-input id="feedback" class="block mx-4 w-full" type="text" name="feedback" :value="old('feedback', $interview->feedback)" placeholder="Masukan alasan kenapa pelamar tidak lulus / gagal" required />
+                                            <input type="hidden" name='status' value="failed">
+                                            <input type="hidden" name='status_user' value="calon peserta">
+                                            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Kirim</button>
+                                            <button type="button" @click="open = false" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Batal</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{--Blacklist--}}
                     <div x-data="{ open: false }">
                         <button @click="open = true" class="w-full text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                            Failed
+                            Failed & Blacklist Pelamar
                         </button>
                         <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" @click.away="open = false">
                             <div class="bg-white p-4">
-                                <h2>Feed back</h2>
+                                <h2>Feedback Filed</h2>
                                 <form action="{{ route('penerimaan.update', $interview->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="flex justify-between mt-4">
                                         <x-text-input id="feedback" class="block mx-4 w-full" type="text" name="feedback" :value="old('feedback', $interview->feedback)" placeholder="Masukan alasan kenapa pelamar tidak lulus / gagal" required />
                                         <input type="hidden" name='status' value="failed">
-                                        <input type="hidden" name='status_user' value="calon peserta">
+                                        <input type="hidden" name='status_user' value="blacklist">
                                         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Kirim</button>
                                         <button type="button" @click="open = false" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Batal</button>
                                     </div>
@@ -59,31 +83,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                {{--Blacklist--}}
-                <div x-data="{ open: false }">
-                    <button @click="open = true" class="w-full text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
-                        Failed & Blacklist Pelamar
-                    </button>
-                    <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" @click.away="open = false">
-                        <div class="bg-white p-4">
-                            <h2>Feedback Filed</h2>
-                            <form action="{{ route('penerimaan.update', $interview->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <div class="flex justify-between mt-4">
-                                    <x-text-input id="feedback" class="block mx-4 w-full" type="text" name="feedback" :value="old('feedback', $interview->feedback)" placeholder="Masukan alasan kenapa pelamar tidak lulus / gagal" required />
-                                    <input type="hidden" name='status' value="failed">
-                                    <input type="hidden" name='status_user' value="blacklist">
-                                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Kirim</button>
-                                    <button type="button" @click="open = false" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Batal</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                @endif
             @endif
-
             <hr class="h-px my-8 bg-gray-500 border-0 dark:bg-gray-700" >
             <h3 class="mb-4 text-md font-semibold tracking-tight text-gray-900 dark:text-white">Jadwal Interview</h3>
             {{--jadwal interview--}}
@@ -96,7 +97,6 @@
                             <div class="fixed inset-0 flex items-center justify-center z-50" x-show="open">
                                 <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-fit">
                                     <div class="mt-4 flex justify-end">
-                                        <h2 class="text-xl font-bold mb-4">{{$row->id}}</h2>
                                         <button class="ml-2 border-2 border-gray-300 hover:bg-gray-400 text-gray-300 hover:text-gray-800 font-bold py-2 px-4 rounded mr-2" @click="open = false">
                                             X
                                         </button>
@@ -140,7 +140,7 @@
                         </div>
                     @endif
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        {{$row->type}}-{{$row->id}}
+                        {{$row->type}}
                     </h5>
                     <p class="mb-3 text-md font-normal text-gray-700 dark:text-gray-400">
                         interview pada {{$row->tgl_interview=date("l, j F Y")}},

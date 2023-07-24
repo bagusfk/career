@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berkas;
 use App\Models\Lamaran;
 use App\Models\Lowongan;
 use App\Models\Answer;
@@ -19,6 +20,8 @@ class TimelineController extends Controller
         $user =auth()->user();
         $lamarans = $user->profile->lamaran;
         $profileId = $user->profile->id;
+        $berkasId = $user->profile->berkas->id;
+        $berkas = Berkas::findOrFail($berkasId);
         // $interview = Interview::where('lamaran_id');
 
         $answers = Answer::whereHas('lamaran', function ($query) use ($profileId) {
@@ -32,7 +35,7 @@ class TimelineController extends Controller
 
         // dd($interviews);
 
-        return view('user.timeline.index', compact('lamarans','answers','interviews'));
+        return view('user.timeline.index', compact('lamarans','answers','interviews','berkas'));
 
         // return response()->view('user.timeline.index',[
         //     'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),
