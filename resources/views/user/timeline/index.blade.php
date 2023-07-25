@@ -404,16 +404,61 @@
                         </div>
                         <div class="p-4 sm:p-8 mb-4 bg-white dark:bg-gray-800 shadow rounded-2xl">
                             <p class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white">Interview</p>
-                            <p class="text-xl font-normal text-gray-900 dark:text-white">Setelah test selesai dikerjakan, silahkan unggah file dalam bentuk PDF.Pastikan file yang Kamu unggah sudah tepat dan benar.
-                                <br><br>Jika sudah kamu unggah, selanjutnya Kami akan memeriksa hasil jawaban kamu paling lambat 5 hari kerja.
-                                <br><br>Good luck :)</p>
+                            <p class="text-xl font-normal text-gray-900 dark:text-white">pada tahap ini Kamu diundang untuk melakukan interview, harap siapkan diri Kamu yaa.
+                                <br><br>Untuk detai interview bisa dilihat pada detail berikut:</p>
+                        </div>
+                        <div class="p-4 sm:p-8 mb-4 bg-white dark:bg-gray-800 shadow rounded-2xl">
+                            <p class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white">Jadwal Interview</p>
+                            @foreach ($interviews as $interview)
+                                @if ($interview->lamaran_id === $item->id)
+                                    <div class="p-4 sm:p-8 mb-4 shadow rounded-2xl @if($interview->feedback) bg-blue-100 dark:bg-blue-900 border border-blue-400 @else bg-gray-100 dark:bg-gray-700 @endif">
+                                        @if($interview->feedback)
+                                            <p class="p-2 mb-2 border border-blue-400 rounded-xl text-xl font-normal text-gray-900 dark:text-white">Yeeeay, Kamu telah melakukan interview dan hasil interview sedang Kami tinjau. terus periksa secara berkala yaa untuk informasi selanjutnya. Terimaksih</p>
+                                        @endif
+                                        <p class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white">Tanggal dan waktu : {{ $interview->tgl_interview }}</p>
+                                        <p class="text-xl font-normal text-gray-900 dark:text-white">Meeting dengan : {{ $interview->user->name }}</p>
+                                        <p class="text-xl font-normal text-gray-900 dark:text-white">Posisi : {{ $interview->lamaran->lowongan->judul }}</p>
+                                        <p class="text-xl font-normal text-gray-900 dark:text-white">Link Interview : <a href="{{ $interview->link }}" class="hover:text-blue-500">{{ $interview->link }}</a> </p>
+                                        <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{$item->feedback}}</h5>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+
+                    @endif
+                    {{--end interviews--}}
+
+                    {{--Hired--}}
+                    @if($item->status === 'hired')
+                        <div class="p-4 sm:p-8 mb-4 bg-green-100 dark:bg-green-800 shadow rounded-2xl border border-green-400">
+                            <div class="flex justify-center">
+                                <x-svg-lencana/>
+                                <x-svg-lencana/>
+                                <x-svg-lencana/>
+                            </div>
+                            <p class="text-center text-3xl font-Bold text-gray-900 dark:text-white mb-2">Selamat <br>{{Auth::user()->name}}</p>
+                            <p class="text-center text-xl font-Bold text-gray-900 dark:text-white mb-2">Kamu diterima sebagai
+                                <br><spa class="text-center text-3xl font-extrabold">{{$item->lowongan->posisi}}</spa></p>
+                            <p class="mt-3 text-center text-lg font-normal text-gray-900 dark:text-white">Sekali lagi kami ucapkan selamat, untuk selanjutnya kami akan mengirimkan hardcopy Intern Agreement Letter dan akan dikirimkan ke alamat domisili, detail lebih lanjut akan Kami informasikan via Email, Pastikan alamat Email dana Alamat domisili kamu sudah sesuai ya.. Terimaksih :)</p>
                         </div>
                     @endif
-                    {{--endinterviews--}}
+                    {{--end Hired--}}
 
-                    <div class="p-4 sm:p-8 mb-4 bg-white dark:bg-gray-800 shadow rounded-2xl">
-                        <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{$item->feedback}}</h5>
-                    </div>
+                    {{--Failed--}}
+                    @if($item->status === 'hired')
+                        <div class="p-4 sm:p-8 mb-4 bg-green-100 dark:bg-green-800 shadow rounded-2xl border border-green-400">
+                            <div class="flex justify-center">
+                                <x-svg-lencana/>
+                                <x-svg-lencana/>
+                                <x-svg-lencana/>
+                            </div>
+                            <p class="text-center text-3xl font-Bold text-gray-900 dark:text-white mb-2">Selamat <br>{{Auth::user()->name}}</p>
+                            <p class="text-center text-xl font-Bold text-gray-900 dark:text-white mb-2">Kamu diterima sebagai
+                                <br><spa class="text-center text-3xl font-extrabold">{{$item->lowongan->posisi}}</spa></p>
+                            <p class="mt-3 text-center text-lg font-normal text-gray-900 dark:text-white">Sekali lagi kami ucapkan selamat, untuk selanjutnya kami akan mengirimkan hardcopy Intern Agreement Letter dan akan dikirimkan ke alamat domisili, detail lebih lanjut akan Kami informasikan via Email, Pastikan alamat Email dana Alamat domisili kamu sudah sesuai ya.. Terimaksih :)</p>
+                        </div>
+                    @endif
+                    {{--end Failed--}}
                 </div>
             @endforeach
         </div>
