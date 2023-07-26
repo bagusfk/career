@@ -13,6 +13,11 @@
                     <h5 class="mb-1 text-lg font-medium text-gray-900 dark:text-white">{{$item->lowongan->judul}}</h5>
                 </a>
             @endforeach
+            @if($lamarans->count() === 0)
+                <div class="min-h-full grid content-center p-4 mt-4 md:mt-0 lg:mt-0 sm:p-8 shadow rounded-2xl border border-dashed border-gray-800 dark:border-white">
+                    <h5 class="text-xl text-center text- font-medium text-gray-900 dark:text-white">Kamu belum melamar lowongan</h5>
+                </div>
+            @endif
         </div>
 
         {{--menampilkan detail lamaran--}}
@@ -27,6 +32,13 @@
                     <div class="p-4 sm:p-8 mb-4 bg-white dark:bg-gray-800 shadow rounded-2xl">
                         <h5 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">{{$item->lowongan->judul}}</h5>
                         <p class="mb-3 text-gray-500 dark:text-gray-400">{{$item->lowongan->tgl_open}} - {{$item->lowongan->tgl_closed}}</p>
+                        @if($item->status === 'pemberkasan')
+                            <form method="post" action="{{ route('lamaran.destroy', $item->id) }}" class="inline">
+                                @csrf
+                                @method('delete')
+                                <button class="border border-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-md">Batalkan lamaran</button>
+                            </form>
+                        @endif
                     </div>
                     {{--timeline--}}
                     <div class="p-4 sm:p-8 mb-4 bg-white dark:bg-gray-800 shadow rounded-2xl">
@@ -419,7 +431,6 @@
                                         <p class="text-xl font-normal text-gray-900 dark:text-white">Meeting dengan : {{ $interview->user->name }}</p>
                                         <p class="text-xl font-normal text-gray-900 dark:text-white">Posisi : {{ $interview->lamaran->lowongan->judul }}</p>
                                         <p class="text-xl font-normal text-gray-900 dark:text-white">Link Interview : <a href="{{ $interview->link }}" class="hover:text-blue-500">{{ $interview->link }}</a> </p>
-                                        <h5 class="text-xl font-medium text-gray-900 dark:text-white">{{$item->feedback}}</h5>
                                     </div>
                                 @endif
                             @endforeach
@@ -445,94 +456,20 @@
                     {{--end Hired--}}
 
                     {{--Failed--}}
-                    @if($item->status === 'hired')
-                        <div class="p-4 sm:p-8 mb-4 bg-green-100 dark:bg-green-800 shadow rounded-2xl border border-green-400">
+                    @if($item->status === 'failed')
+                        <div class="p-4 sm:p-8 mb-4 bg-red-100 dark:bg-red-800 shadow rounded-2xl border border-red-400">
                             <div class="flex justify-center">
-                                <x-svg-lencana/>
-                                <x-svg-lencana/>
-                                <x-svg-lencana/>
+
                             </div>
-                            <p class="text-center text-3xl font-Bold text-gray-900 dark:text-white mb-2">Selamat <br>{{Auth::user()->name}}</p>
-                            <p class="text-center text-xl font-Bold text-gray-900 dark:text-white mb-2">Kamu diterima sebagai
-                                <br><spa class="text-center text-3xl font-extrabold">{{$item->lowongan->posisi}}</spa></p>
-                            <p class="mt-3 text-center text-lg font-normal text-gray-900 dark:text-white">Sekali lagi kami ucapkan selamat, untuk selanjutnya kami akan mengirimkan hardcopy Intern Agreement Letter dan akan dikirimkan ke alamat domisili, detail lebih lanjut akan Kami informasikan via Email, Pastikan alamat Email dana Alamat domisili kamu sudah sesuai ya.. Terimaksih :)</p>
+                            <p class="text-center text-3xl font-Bold text-gray-900 dark:text-white mb-2">Dear  <br>{{Auth::user()->name}}</p>
+                            <p class="mt-3 text-center text-lg font-normal text-gray-900 dark:text-white">Perusahaan tidak dapat memproses lamaranmu lebih lanjut sebagai <spa class="text-center text-xl font-bold">{{$item->lowongan->posisi}}</spa>, dan sayang sekali Kamu tidak dapat lanjut ke tahap selanjutnya dikarenakan <span class="text-xl font-medium">{{$item->feedback}}</span></p>
+                            <br>
+                            <p class="mt-3 text-center text-lg font-normal text-gray-900 dark:text-white">Tetap semangat dan jangan putus asa, semoga kamu dapat menemukan lowongan lain. </p>
                         </div>
                     @endif
                     {{--end Failed--}}
                 </div>
             @endforeach
         </div>
-    </div>
-
-    <h1 class="py-12 text-3xl dark:text-white text-center">Halo <span>{{ Auth::user()->name }}</span> Di List lamaran saya</h1>
-    <div class="relative max-w-6xl mx-auto overflow-x-auto shadow-md sm:rounded-lg -z-9">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 -z-10">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Judul
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        posisi
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Status
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($lamarans as $row)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $row->lowongan->judul }} - {{ $row->profile->user->name }}
-                        </th>
-                        <td class="px-6 py-4">{{ $row->lowongan->posisi }}</td>
-                        <td class="px-6 py-4">{{ $row->status }}</td>
-                        <td class="px-6 py-4">
-                            @if ($row->status === 'interview')
-                                @foreach ($interviews as $interview)
-                                    @if ($interview->lamaran_id === $row->id)
-                                    <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="inline-flex m-1 items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-                                    detail interview ke - {{ $loop->iteration }}->
-                                    <a href="{{ $interview->link }}">{{ $interview->link }}</a>
-                                    </button>
-                                    @endif
-                                @endforeach
-                            @endif
-
-                            @if ($row->status === 'test')
-                                |<a href="{{ url('storage/Files/'.$row->lowongan->file_test) }}" download>Download File Test</a>|
-                                @foreach ($answers as $item)
-                                    @if ($item->id===$row->id)
-                                        <h5>{{$item->file_url}}</h5>
-                                        <form action="{{ route('answer.update', $item->id) }}" method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="file" value="{{old('file_test',$item->file_url)}}" name="file_url" id="file_url" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
-                                            <x-primary-button class="ml-4">
-                                                {{ __('Kirim') }}
-                                            </x-primary-button>
-                                        </form>
-                                    @endif
-                                @endforeach
-                            @endif
-
-                            @if($row->status === 'failed')
-                                <h5>{{$row->feedback}}</h5>
-                            @endif
-
-                            @if($row->status === 'hired')
-                                <h5>Omedeto anda ketrima sebagai {{$row->lowongan->posisi}}</h5>
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-
-            </tbody>
-
-        </table>
     </div>
 </x-app-layout>

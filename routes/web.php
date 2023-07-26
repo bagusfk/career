@@ -46,6 +46,7 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
 
     Route::get('/lamaran/{lowongan}', [LamaranController::class,'create'])->name('lamaran.create');
     Route::Post('/lamaran/create', [LamaranController::class,'store'])->name('lamaran.store');
+    Route::delete('/lamaran/{lamaran}', [LamaranController::class,'destroy'])->name('lamaran.destroy');
 
     Route::resource('/timeline', TimelineController::class);
     Route::resource('/answer', AnswerController::class);

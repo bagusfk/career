@@ -6,6 +6,7 @@ use App\Models\Lamaran;
 use App\Models\Lowongan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -99,8 +100,18 @@ class LamaranController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Lamaran $lamaran)
+    public function destroy($id)
     {
-        //
+//        dd($id);
+        $lamaran = Lamaran::findOrFail($id);
+//        dd($lamaran);
+        Storage::delete('public/Files/'.$lamaran->answer->file_url);
+        $delete = $lamaran->delete($id);
+
+        if(!$delete) {
+            return abort(500);
+        }
+
+        return redirect()->back()->with('success', 'lamaran berhasil dibatalkan.');
     }
 }
