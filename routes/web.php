@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlacklistController;
 use App\Http\Controllers\GeneralProfileController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\InterviewerController;
@@ -70,6 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::Post('/admin/interview/create', [InterviewController::class,'store'])->name('interview.store');
         Route::Put('/admin/interview/{id}', [InterviewController::class,'updateJadwal'])->name('interview.update');
         Route::get('/admin/berkas-pelamar/{berkas}',[BerkasController::class,'show'])->name('berkas.show');
+        Route::resource('/admin/blacklist', BlacklistController::class);
     });
 
     Route::middleware('myrole:interviewer,admin')->group(function () {

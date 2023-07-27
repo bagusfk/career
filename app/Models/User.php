@@ -49,8 +49,13 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function interviews()
+    public function interview()
     {
         return $this->hasMany(Interview::class);
+    }
+
+    public function blacklist()
+    {
+        return $this->hasOne(Blacklist::class);
     }
 }

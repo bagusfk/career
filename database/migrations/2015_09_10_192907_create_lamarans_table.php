@@ -19,7 +19,6 @@ return new class extends Migration
                 'interview',
                 'hired',
                 'failed',
-                'blacklist'
                 ])->default('pemberkasan');
             $table->text('feedback')->nullable();
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');

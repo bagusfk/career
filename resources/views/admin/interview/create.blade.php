@@ -69,13 +69,13 @@
                         <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" @click.away="open = false">
                             <div class="bg-white p-4">
                                 <h2>Feedback Filed</h2>
-                                <form action="{{ route('penerimaan.update', $interview->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
+                                <form action="{{ route('blacklist.update', $interview->id) }}" method="POST" class="flex flex-row" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                     <div class="flex justify-between mt-4">
                                         <x-text-input id="feedback" class="block mx-4 w-full" type="text" name="feedback" :value="old('feedback', $interview->feedback)" placeholder="Masukan alasan kenapa pelamar tidak lulus / gagal" required />
                                         <input type="hidden" name='status' value="failed">
-                                        <input type="hidden" name='status_user' value="blacklist">
+                                        <input type="hidden" name='user_id' value="{{$interview->profile->user->id}}">
                                         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Kirim</button>
                                         <button type="button" @click="open = false" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Batal</button>
                                     </div>

@@ -20,7 +20,16 @@
             </thead>
             <tbody>
                 @foreach ($lamarans as $row)
-                    <tr class="@if($row->profile->user->status_user==='blacklist') bg-red-300 @else bg-white dark:bg-gray-800 @endif border-b dark:border-gray-700">
+                    <tr class="
+                    @foreach($blacklist as $item)
+                        @if($row->profile->user->id === $item->user_id)
+                            bg-red-300 dark:bg-red-900
+                        @else
+                            bg-white dark:bg-gray-800
+                        @endif
+                    @endforeach
+                        border-b dark:border-gray-700"
+                    >
                         <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $row->profile->user->name }}</th>
                         <td class="px-6 py-4">{{ $row->lowongan->posisi }}</td>
                         <td class="px-6 py-4">
@@ -33,7 +42,6 @@
                                     <option value="interview" {{ $row->status === 'interview' ? 'selected' : '' }}>interview</option>
                                     <option value="hired" {{ $row->status === 'hired' ? 'selected' : '' }}>hired</option>
                                     <option value="failed" {{ $row->status === 'failed' ? 'selected' : '' }}>failed</option>
-                                    <option value="blacklist" {{ $row->status === 'blacklist' ? 'selected' : '' }}>blacklist</option>
                                 </select>
                                 <div class="">
                                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Save</button>

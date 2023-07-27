@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blacklist;
 use App\Models\Lamaran;
 use App\Models\Answer;
 use App\Models\Lowongan;
@@ -20,8 +21,9 @@ class PenerimaanController extends Controller
         $lamarans = Lamaran::orderBy('updated_at', 'desc')->get();
         $answers = Answer::all();
         $berkas = Berkas::all();
+        $blacklist = Blacklist::all();
 
-        return view('admin.penerimaan.index', compact('lamarans', 'answers', 'berkas'));
+        return view('admin.penerimaan.index', compact('lamarans', 'answers', 'berkas', 'blacklist'));
 
         // return response()->view('admin.penerimaan.index',[
         //     'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),
@@ -103,7 +105,6 @@ class PenerimaanController extends Controller
             $updates = $users->update([
                 'status_user' => $request->status_user,
             ]);
-
 
             if(!$updates) {
                 return abort(500);
