@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Lamaran;
 use App\Models\Lowongan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -17,8 +19,14 @@ class LamaranController extends Controller
      */
     public function index()
     {
+//        $now = Carbon::now()->format('Y-m-d');?\
+//        App::setLocale('id');
+
         return response()->view('user.lamaran.index',[
-            'lowongans'=>Lowongan::orderBy('updated_at', 'desc')->get(),
+            'lowongans'=>Lowongan::whereDate('tgl_open', '<=', Carbon::now())
+                ->whereDate('tgl_closed', '>=', Carbon::now())
+                ->orderBy('updated_at', 'desc')
+                ->get(),
         ]);
     }
 

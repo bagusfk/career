@@ -31,7 +31,7 @@
                 <div class="md:mt-0 lg:mt-0" x-show="tabs === {{$item->id}}">
                     <div class="p-4 sm:p-8 mb-4 bg-white dark:bg-gray-800 shadow rounded-2xl">
                         <h5 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">{{$item->lowongan->judul}}</h5>
-                        <p class="mb-3 text-gray-500 dark:text-gray-400">{{$item->lowongan->tgl_open}} - {{$item->lowongan->tgl_closed}}</p>
+                        <p class="mb-3 text-gray-500 dark:text-gray-400">di tutup pada : {{ date('l, d M Y', strtotime($item->lowongan->tgl_closed)) }}</p>
                         @if($item->status === 'pemberkasan')
                             <form method="post" action="{{ route('lamaran.destroy', $item->id) }}" class="inline">
                                 @csrf
@@ -368,7 +368,7 @@
                                 </a>
                             </div>
                             <p class="lg:col-span-3 text-xl font-normal text-gray-900 dark:text-white">Pada tahap ini anda diminta untuk mengerjakan test, test bisa diunduh dengan klik pada file test yang ada.
-                                <br><br>waktu pengerjaan test dimulai sejak anda dinyatakan lolos ke tahap assessment sampai batas akhir penutupan pendaftaran yaitu pada tanggal <span class="font-extrabold border border-blue-400 rounded-lg"> {{$item->lowongan->tgl_closed}} </span>. file jawaban dapat diunggah pad bagian unggah file jawaban.
+                                <br><br>waktu pengerjaan test dimulai sejak anda dinyatakan lolos ke tahap assessment sampai batas akhir penutupan pendaftaran yaitu pada tanggal <span class="font-extrabold border border-blue-400 rounded-lg"> {{ date('l, d M Y', strtotime($item->lowongan->tgl_closed)) }} </span>. file jawaban dapat diunggah pad bagian unggah file jawaban.
                                 <br><br>Selamat Mengerjakan :)</p>
                         </div>
                         <div class="p-4 sm:p-8 mb-4 bg-white dark:bg-gray-800 shadow rounded-2xl grid grid-cols-1 lg:grid-cols-4 gap-4">
@@ -427,7 +427,7 @@
                                         @if($interview->feedback)
                                             <p class="p-2 mb-2 border border-blue-400 rounded-xl text-xl font-normal text-gray-900 dark:text-white">Yeeeay, Kamu telah melakukan interview dan hasil interview sedang Kami tinjau. terus periksa secara berkala yaa untuk informasi selanjutnya. Terimaksih</p>
                                         @endif
-                                        <p class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white">Tanggal dan waktu : {{ $interview->tgl_interview }}</p>
+                                        <p class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white">Tanggal dan waktu : {{ date('l, d M Y', strtotime($interview->tgl_interview)) }} Jam {{ date('H:i', strtotime($interview->tgl_interview)) }} </p>
                                         <p class="text-xl font-normal text-gray-900 dark:text-white">Meeting dengan : {{ $interview->user->name }}</p>
                                         <p class="text-xl font-normal text-gray-900 dark:text-white">Posisi : {{ $interview->lamaran->lowongan->judul }}</p>
                                         <p class="text-xl font-normal text-gray-900 dark:text-white">Link Interview : <a href="{{ $interview->link }}" class="hover:text-blue-500">{{ $interview->link }}</a> </p>

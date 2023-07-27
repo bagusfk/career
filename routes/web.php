@@ -15,6 +15,7 @@ use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Models\Lowongan;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,9 +36,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return response()->view('dashboard',[
-        'lowongans'=>Lowongan::take(2)->get(),
+        'lowongans'=>Lowongan::whereDate('tgl_open', '<=', Carbon::now())
+            ->whereDate('tgl_closed', '>=', Carbon::now())
+            ->orderBy('updated_at', 'desc')
+            ->take(2)->get(),
     ]);
 })->name('user.index');
+
 Route::get('/lowongan', [LamaranController::class,'index'])->name('lamaran.index');
 
 Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {

@@ -36,8 +36,8 @@
                         <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $lowongan->judul }}</th>
                         <td class="px-6 py-4">{{ $lowongan->deskripsi }}</td>
                         <td class="px-6 py-4">{{ $lowongan->posisi }}</td>
-                        <td class="px-6 py-4">{{ $lowongan->tgl_open }}</td>
-                        <td class="px-6 py-4">{{ $lowongan->tgl_closed }}</td>
+                        <td class="px-6 py-4">{{ date('l, d M Y', strtotime($lowongan->tgl_open)) }}</td>
+                        <td class="px-6 py-4">{{ date('l, d M Y', strtotime($lowongan->tgl_closed)) }}</td>
                         <td class="px-6 py-4">
                             <a href="{{ url('storage/Files/'.$lowongan->file_test) }}" download>
                                 Download

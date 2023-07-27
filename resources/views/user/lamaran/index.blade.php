@@ -39,8 +39,11 @@
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {{ $lowongan->judul }}
                             </h5>
-                            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                {{ $lowongan->posisi }} - {{ $lowongan->tgl_closed }}
+                            <p class="font-normal text-gray-700 dark:text-gray-400">
+                                Posisi : {{ $lowongan->posisi }}
+                            </p>
+                            <p class="font-normal text-gray-700 dark:text-gray-400">
+                                Tutup pada : {{ date('l, d M Y', strtotime($lowongan->tgl_closed)) }}
                             </p>
                         </a>
                     </div>

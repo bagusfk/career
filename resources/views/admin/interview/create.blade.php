@@ -143,8 +143,7 @@
                         {{$row->type}}
                     </h5>
                     <p class="mb-3 text-md font-normal text-gray-700 dark:text-gray-400">
-                        interview pada {{$row->tgl_interview=date("l, j F Y")}},
-                        jam {{$row->tgl_interview=date("H:i a")}}
+                        interview pada {{ date('l, d M Y', strtotime($row->tgl_interview)) }} Jam {{ date('H:i', strtotime($row->tgl_interview)) }}
                         <br>Oleh Bapak/Ibu {{$row->user->name}}
                     </p>
                     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
