@@ -45,6 +45,10 @@ Route::get('/', function () {
 
 Route::get('/lowongan', [LamaranController::class,'index'])->name('lamaran.index');
 
+Route::get('/user_guide', function () {
+    return view('user_guide');
+})->name('user.guide');
+
 Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::get('/account', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/account', [ProfileController::class, 'update'])->name('profile.update');
@@ -52,6 +56,7 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
 
     Route::get('/lamaran/{lowongan}', [LamaranController::class,'create'])->name('lamaran.create');
     Route::Post('/lamaran/create', [LamaranController::class,'store'])->name('lamaran.store');
+    Route::get('/lamaran/view/{lowongan}', [LamaranController::class,'show'])->name('lamaran.show');
     Route::delete('/lamaran/{lamaran}', [LamaranController::class,'destroy'])->name('lamaran.destroy');
 
     Route::resource('/timeline', TimelineController::class);

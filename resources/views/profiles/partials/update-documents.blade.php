@@ -52,7 +52,8 @@
                         </div>
 
                         <div class="my-8">
-                            <label class="block mb-2 text-md font-medium text-gray-900 dark:text-white" for="file_input">Profiling File<span class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help"> - (Excel File (MAX 2MB))</span></label>
+                            <label class="block mb-2 text-md font-medium text-gray-900 dark:text-white" for="file_input">Profiling File<span class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help"> - (Excel File (MAX 2MB))</span>
+                                <a href="{{url('storage/Files/profiling_file.xlsx')}}" class="text-lg font-bold text-blue-600 dark:text-blue-500 hover:underline" download>Unduh format Profiling_file.xlsx</a></label>
                             <input name="profiling" accept=".xlsx" class="block max-w-6xl text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" value="{{$databerkas->profiling}}">
                             @if($databerkas->profiling)
                                 <div class="my-4">

@@ -75,9 +75,12 @@ class LamaranController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lamaran $lamaran)
+    public function show($id)
     {
-
+//        $lowongan = Lowongan::findOrFail($id);
+        return response()->view('user.lamaran.show',[
+            'lowongans'=>Lowongan::findOrFail($id),
+        ]);
     }
 
     /**

@@ -34,6 +34,7 @@
                             </x-nav-link>
                         </div>
                     @endif
+
                     @if (Auth::user()->role === 'admin')
                         <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             <x-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
@@ -79,6 +80,11 @@
                         </div>
                     @endif
                 @endauth
+                <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('user.guide')" :active="request()->routeIs('user.guide')">
+                        {{ __('User Guide') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
