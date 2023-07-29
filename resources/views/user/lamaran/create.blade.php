@@ -41,7 +41,7 @@
                     </svg>
                     <span class="sr-only">Info</span>
                     <div>
-                        <span class="font-medium">Data diri Kamu belum lengkap!</span> Kamu belumbisa mengirimkan lamaran sebelum melengkapi data diri.
+                        <span class="font-medium">Data diri Kamu belum lengkap!</span> Kamu belum bisa mengirimkan lamaran sebelum melengkapi data diri.
                         <a href="{{route('profiles.edit', auth()->user()->profile->id)}}" class="inline-flex items-center font-medium text-blue-600 dark:text-blue-300 hover:underline">
                             lengkapi profile
                             <svg class="w-4 h-4 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -68,7 +68,9 @@
                 <div>
                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Lahir</label>
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        {{ date('l, d M Y', strtotime(Auth::user()->profile->tgl_lahir)) }}
+                        @if(Auth::user()->profile->tgl_lahir)
+                            {{ date('l, d M Y', strtotime(Auth::user()->profile->tgl_lahir)) }}
+                        @endif
                     </h5>
                 </div>
                 <div>

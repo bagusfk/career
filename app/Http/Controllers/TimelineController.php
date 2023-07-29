@@ -20,6 +20,7 @@ class TimelineController extends Controller
         $user =auth()->user();
         $lamarans = $user->profile->lamaran;
         $profileId = $user->profile->id;
+        $lowongans = Lowongan::withTrashed()->findOrFail($lamarans);
         $berkasId = $user->profile->berkas->id;
         $berkas = Berkas::findOrFail($berkasId);
         // $interview = Interview::where('lamaran_id');
@@ -35,7 +36,7 @@ class TimelineController extends Controller
 
         // dd($interviews);
 
-        return view('user.timeline.index', compact('lamarans','answers','interviews','berkas'));
+        return view('user.timeline.index', compact('lowongans','lamarans','answers','interviews','berkas'));
 
         // return response()->view('user.timeline.index',[
         //     'lamarans'=>Lamaran::orderBy('updated_at', 'desc')->get(),

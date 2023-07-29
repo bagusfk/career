@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tgl_open');
             $table->date('tgl_closed');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
