@@ -68,7 +68,9 @@
                 <div>
                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Lahir</label>
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        {{ date('l, d M Y', strtotime(Auth::user()->profile->tgl_lahir)) }}
+                        @if(Auth::user()->profile->tgl_lahir)
+                            {{ date('l, d M Y', strtotime(Auth::user()->profile->tgl_lahir)) }}
+                        @endif
                     </h5>
                 </div>
                 <div>
