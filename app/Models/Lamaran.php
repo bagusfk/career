@@ -23,7 +23,7 @@ class Lamaran extends Model
 
     public function lowongan()
     {
-        return $this->belongsTo(Lowongan::class)->withTrashed();
+        return $this->belongsTo(Lowongan::class);
     }
 
     public function answer()

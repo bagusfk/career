@@ -116,8 +116,7 @@ class LowonganController extends Controller
     {
         $lowongan = Lowongan::findOrFail($id);
         Storage::delete('public/Files/'.$lowongan->file_test);
-
-        $delete = $lowongan->delete();
+        $delete = $lowongan->delete($id);
 
         if(!$delete) {
             return abort(500);
