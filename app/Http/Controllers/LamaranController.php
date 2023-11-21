@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lamaran;
 use App\Models\Lowongan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -124,5 +125,20 @@ class LamaranController extends Controller
         }
 
         return redirect()->back()->with('success', 'lamaran berhasil dibatalkan.');
+    }
+
+    public function json(Request $request)
+    {
+        $value = $request->header('x-api-key');
+//        return $value;
+        if ($value == '827ccb0eea8a706c4c34a16891f84e7b'){
+            $user = User::all();
+            return response()->json($user);
+        }else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'kunci salah',
+            ]);
+        }
     }
 }

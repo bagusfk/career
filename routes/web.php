@@ -67,7 +67,9 @@ Route::middleware(['auth', 'verified', 'myrole:user'])->group(function () {
     Route::Put('/profiles/image/{profile}', [GeneralProfileController::class, 'updatePhoto'])->name('updatePhoto.update');
     Route::resource('/berkas', BerkasController::class)
         ->only(['edit','update']);
+
 });
+    Route::get('/cobajson', [LamaranController::class,'json']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

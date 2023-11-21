@@ -46,7 +46,7 @@ class InterviewController extends Controller
             'type' => 'required',
             'tgl_interview' => 'required',
             'user_id' => 'required',
-            'link' => 'required',
+            'link' => 'required|string',
             'lamaran_id' => 'required',
         ]);
 
